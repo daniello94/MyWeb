@@ -1,0 +1,34 @@
+form{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    input{
+        padding: 5px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-family: 'Caveat', cursive;
+        &:focus{
+            background-color: silver;
+            opacity: 0.8;
+        }
+    }
+    label{
+        display: flex;
+        flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       span{
+        margin-bottom: 5px;
+        font-family: 'Lacquer', cursive;
+       }
+       input{
+        margin-right: 5px;
+       }
+    }
+}
+.inputError{
+    background-color:  red;
+}

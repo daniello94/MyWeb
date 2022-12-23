@@ -1,0 +1,89 @@
+%commonIcons {
+    font-size: 40px;
+    cursor: pointer;
+    transition: 0.8s;
+}
+.iconOpen,
+.iconClose,
+.iconUser,
+.iconLogOut {
+    @extend %commonIcons;
+}
+.iconOpen,
+.iconUser {
+    &:hover {
+        border: 2px solid black;
+        background-color: black;
+        color: white;
+    }
+}
+.iconLogOut{
+    margin-right: 10px;
+    color: black;
+    &:hover{
+        color: red;
+    }
+}
+.iconClose {
+    position: absolute;
+    font-size: 35px;
+    top: 0;
+    left: 2px;
+    &:hover {
+        color: red;
+    }
+}
+.mainNav {
+    width: 5%;
+    text-align: center;
+    .menu {
+        list-style: none;
+        text-align: left;
+        li {
+            margin-top: 50px;
+            .mainItem {
+                text-decoration: none;
+                color: black;
+                cursor: pointer;
+                font-size: 20px;
+                transition: 0.8s;
+                padding: 10px;
+                font-family: 'Josefin Sans', sans-serif;
+                border-radius: 5px;
+                &:hover {
+                    font-weight: bold;
+                    border: 2px solid black;
+                    background-color: black;
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
+.logoContent {
+    width: 9%;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.contentLinkMenu {
+    text-align: center;
+    display: inline;
+    width: 10%;
+}
+.close {
+    display: none;
+}
+.open {
+    display: contents;
+    .contentOpenMenu {
+        position: absolute;
+        top: 0;
+        background-color: white;
+        width: 30%;
+        height: 1200px;
+    }
+}

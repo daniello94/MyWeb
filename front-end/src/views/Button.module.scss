@@ -1,0 +1,20 @@
+.btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: 0.8s;
+    font-family: "Pacifico", cursive;
+    border: 2px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 5px;
+    &:hover {
+        background-color: black;
+        color: white;
+        opacity: 0.8;
+    }
+}
+.secundBtn{
+    border: none;
+}
