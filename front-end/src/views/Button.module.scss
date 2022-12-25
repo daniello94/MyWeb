@@ -1,20 +1,37 @@
+%commonBtnAndLink {
+    transition: 0.8s;
+    font-family: "Pacifico", cursive;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+/* styles for button */
 .btn {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    padding: 5px;
-    transition: 0.8s;
     font-family: "Pacifico", cursive;
     border: 2px solid black;
-    padding: 5px;
-    border-radius: 5px;
-    margin-left: 5px;
+    @extend %commonBtnAndLink;
     &:hover {
         background-color: black;
         color: white;
         opacity: 0.8;
     }
 }
-.secundBtn{
+.secundBtn {
     border: none;
+}
+/* styles for link */
+.link {
+    @extend %commonBtnAndLink;
+    border: 2px solid transparent;
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+    &:hover {
+        background-color: black;
+        color: white;
+        opacity: 0.8;
+    }
 }

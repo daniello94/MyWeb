@@ -13,9 +13,11 @@ import styles from "./views/App.module.scss";
 /* routers */
 import Menu from "./routers/Menu";
 import LoginAndSignUp from "./routers/LoginAndSignUp";
-
+import SendEmailResetPassword from "./routers/SendEmailResetPassword";
+import ResetPassword from "./routers/ResetPassword";
 /* components */
 import Container from "./components/Container";
+
 
 export default function App() {
   const [stanUser, setStanUser] = useState("close");
@@ -23,7 +25,6 @@ export default function App() {
     JSON.parse(localStorage.getItem('user'))
   );
   axios.defaults.headers.common["x-auth-token"] = userData ? userData.jwt : "";
-
 
   const userOption = () => {
     if (stanUser === "close") {
@@ -42,14 +43,27 @@ export default function App() {
       {/* login and registration */}
       {!userData && (
         <div className={styles[stanUser]}>
-          <BiX onClick={() => userOption()} className={styles.iconClose} />
-          <div className={styles.linkActionLogin}>
-            <LoginAndSignUp
-              userData={userData}
-              setUser={setUser} />
+          <div className={styles.zIndex}>
+            <BiX onClick={() => userOption()} className={styles.iconClose} />
+            <div className={styles.linkActionLogin}>
+              <LoginAndSignUp
+                userOption={() => userOption()}
+                userData={userData}
+                setUser={setUser} />
+            </div>
           </div>
         </div>
       )}
+      <Routes>
+        <Route path="/reset-password/:token"
+          element={
+            <ResetPassword />
+          } />
+        <Route path="/reset-password-email"
+          element={
+            <SendEmailResetPassword />
+          } />
+      </Routes>
 
     </Container>
 

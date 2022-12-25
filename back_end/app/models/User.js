@@ -57,7 +57,9 @@ const schema = mongoose.Schema({
         trim: true,
         default: 'client',
         enum: ['admin', 'rental-employee', 'client']
-    }
+    },
+    tokenResetPassword: String,
+    resetPasswordExpires: Date,
 });
 
 schema.plugin(uniqueValidator);
@@ -78,5 +80,14 @@ schema.pre('save', function (next) {
 schema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, process.env.JWT_PRIVATE_KEY, { expiresIn: '1h' });
     return token
+}
+schema.methods.generateResetPasswordToken = function () {
+    const data = {
+        userId: this._id
+    }
+    const options = {
+        expiresIn: "1d"
+    }
+    return jwt.sign(data, process.env.JWT_PRIVATE_KEY, options)
 }
 module.exports = mongoose.model('User', schema);

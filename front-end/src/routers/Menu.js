@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 /* style media and icons */
 import styles from "../views/Menu.module.scss";
-import { BiMenu, BiX,BiLogOut } from "react-icons/bi";
+import { BiMenu, BiX, BiLogOut } from "react-icons/bi";
 import { BsFillPersonFill } from "react-icons/bs";
 import logoCompany from "../media/picture/logo.jpg"
 /* components */
 import Container from "../components/Container";
+import MyLink from "../components/MyLink";
 
 export default function Menu(props) {
     const [isActive, setActive] = useState("close");
     const [isClose, setClose] = useState("open");
-
 
     const logOut = () => {
         localStorage.clear();
@@ -28,7 +28,6 @@ export default function Menu(props) {
         }
     };
 
-
     return (
         <Container thirdContainer={true}>
             <nav className={styles.mainNav}>
@@ -42,10 +41,10 @@ export default function Menu(props) {
                         </div>
                         <ul className={styles.menu}>
                             <li>
-                                <Link onClick={() => menuHamburgerStan()} className={styles.mainItem} to="/">Home</Link>
+                                <MyLink onClick={() => menuHamburgerStan()} to="/">Home</MyLink>
                             </li>
                             <li>
-                                <Link onClick={() => menuHamburgerStan()} className={styles.mainItem} to="/signup">Registration</Link>
+                                <MyLink onClick={() => menuHamburgerStan()} to="/signup">Registration</MyLink>
                             </li>
                         </ul>
                     </div>
@@ -65,7 +64,7 @@ export default function Menu(props) {
             )}
 
             {props.userData && (
-                <Link className={styles.mainItem} to="/" onClick={logOut}><BiLogOut className={styles.iconLogOut}/></Link>
+                <Link className={styles.mainItem} to="/" onClick={logOut}><BiLogOut className={styles.iconLogOut} /></Link>
             )}
         </Container>
 

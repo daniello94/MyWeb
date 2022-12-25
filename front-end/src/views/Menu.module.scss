@@ -17,10 +17,10 @@
         color: white;
     }
 }
-.iconLogOut{
+.iconLogOut {
     margin-right: 10px;
     color: black;
-    &:hover{
+    &:hover {
         color: red;
     }
 }
@@ -41,22 +41,6 @@
         text-align: left;
         li {
             margin-top: 50px;
-            .mainItem {
-                text-decoration: none;
-                color: black;
-                cursor: pointer;
-                font-size: 20px;
-                transition: 0.8s;
-                padding: 10px;
-                font-family: 'Josefin Sans', sans-serif;
-                border-radius: 5px;
-                &:hover {
-                    font-weight: bold;
-                    border: 2px solid black;
-                    background-color: black;
-                    color: white;
-                }
-            }
         }
     }
 }

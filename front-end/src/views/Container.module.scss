@@ -1,5 +1,4 @@
-
-%commonContainer{
+%commonContainer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,16 +9,14 @@
     margin-left: auto;
     margin-right: auto;
     @extend %commonContainer;
-
+    position: static;
 }
-.secundContainer{
+.forContainer {
+    margin-top: 10%;
     width: 80%;
-    height: 100%;
-    margin-top: 45%;
-    @extend %commonContainer;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
+    background-color: white;
+    opacity: 0.7;
+    z-index: 1;
 }
 .thirdContainer {
     background-color: white;
@@ -36,4 +33,14 @@
     justify-content: space-between;
     align-items: center;
     opacity: 0.9;
+    z-index: 20000000000000000000000000000000000000000000000000000000000000000;
+}
+.secundContainer {
+    width: 80%;
+    height: 100%;
+    margin-top: 45%;
+    @extend %commonContainer;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
 }

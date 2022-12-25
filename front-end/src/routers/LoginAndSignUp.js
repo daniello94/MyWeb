@@ -6,6 +6,7 @@ import MainHeder from "../components/MainHeder";
 import Button from "../components/Button";
 import Error from "../components/Error";
 import MyInput from "../components/MyInput";
+import MyLink from "../components/MyLink";
 /* style */
 import "../views/LoginAndSignUp.module.scss";
 
@@ -35,7 +36,7 @@ export default function LoginAndSignUp(props) {
     const [error, setError] = useState("");
     const [errorStatus, setErrorStatus] = useState("");
 
-    const registrationUser = (e) => {
+    const registrationUser = () => {
         if (isMyInputError === true) {
             setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
         } else if (!firstName) {
@@ -117,9 +118,8 @@ export default function LoginAndSignUp(props) {
 
                         }
                         axios.post('http://127.0.0.1:8080/user/signup', formData)
-                            .then((res) => {
+                            .then(() => {
                                 setError(<Error isAlternative={true}>Zostałeś zarejestrowany możesz sie teraz zalogować</Error>)
-                                console.log(res.data.user);
                             })
                         setFirstName("");
                         setLastName("")
@@ -139,15 +139,14 @@ export default function LoginAndSignUp(props) {
                     setError(<Error>Wystąpił bład podczas sprawdzania unikalnosci adresu email</Error>)
                 })
         }
-
     };
     const loginUser = () => {
         if (!email) {
-            setError("Wprowadaź adres email");
+            setError(<Error>Wprowadaź adres emai</Error>);
         } else if ((!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email))) {
-            setError("Wprowadaź porpawny email");
+            setError(<Error>Wprowadaź porpawny email</Error>);
         } else if (!password) {
-            setError("Wprowadź hasło");
+            setError(<Error>Wprowadź hasło</Error>);
         } else {
             axios.post("http://127.0.0.1:8080/user/login", {
                 email: email,
@@ -386,6 +385,8 @@ export default function LoginAndSignUp(props) {
                             setRegistration("");
                             setError("");
                             setErrorStatus("");
+                            setPassword("")
+                            setEmail("")
                         }}>Powrót do logowania</Button>
                     </div>
 
@@ -399,13 +400,11 @@ export default function LoginAndSignUp(props) {
             {error}
             <form>
                 <MyInput
-                    isError={isMyInputError}
                     type="text"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     placeholder="Login" />
                 <MyInput
-                    isError={isMyInputErrorPassword}
                     type="password"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
@@ -415,6 +414,7 @@ export default function LoginAndSignUp(props) {
                     loginUser()
                 }}>Zaloguj</Button>
             </form>
+            <p>Nie pamietasz hasła klijknij <MyLink onClick={props.userOption} to="/reset-password-email">tutaj</MyLink></p>
             <p>Aby stworzyć konto kliknij <Button secundBtn={true} onClick={() => {
                 setRegistration("openRegistration");
                 setError("")

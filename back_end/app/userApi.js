@@ -2,9 +2,17 @@ const express = require('express');
 const router = express.Router();
 const user = require('./controller/user.controller');
 
-router.post('/check-email-uniqueness', (req, res) => {
+router.post('/generate-token', function (req, res) {
+    user.tokenReset(req,res)
+})
+
+router.post('/reset-password', function (req, res) {
+    user.reset(req, res)
+})
+
+router.post('/check-email-uniqueness', function (req, res) {
     const email = req.body.email
-    user.email(email, (err, data) => {
+    user.email(email, function (err, data) {
         if (err) {
             return res.status(500).send(err)
         } else {
