@@ -6,36 +6,52 @@ import Container from '../components/Container';
 import Error from '../components/Error';
 import MyInput from '../components/MyInput';
 import Button from '../components/Button';
+import MainHeder from '../components/MainHeder';
+import MyLink from '../components/MyLink';
 
-export default function ResetPassword() {
+export default function ResetPassword(props) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [statusError, setStatusError] = useState(false)
     const { token } = useParams();
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
         if (!password) {
-            setError('Wpisz nowe hasło')
+            setError(<Error>Wpisz nowe hasło</Error>)
         } else if (password !== confirmPassword) {
-            setError('Hasła nie są takie same');
-            return;
-        }
-        try {
-            const response = await axios.post(`http://127.0.0.1:8080/user/reset-password`, { token, password });
-            setSuccess(response.data.success);
-            setError(<Error isalternative={true}>Hasło zostało zmienione pomyśłnie możesz sie zalogować</Error>)
-        } catch (error) {
-            setError(error.response.data.error);
+            setError(<Error>Hasła nie są identyczne</Error>);
+        } else if (statusError === true) {
+            setError(<Error>Wpisane hasło zawiera błedy popraw je </Error>)
+        } else {
+            axios.post('http://127.0.0.1:8080/user/reset-password', {
+                token,
+                password
+            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        setError(<Error isAlternative={true}>Hasło zostało zresetowane możesz sie zalogować <MyLink secondLink={true} to="/signup" onClick={props.userOption}>klikając tutaj</MyLink> </Error>);
+                        setPassword("");
+                        setConfirmPassword("");
+                    }
+                })
+                .catch((error) => {
+                    if (error.response.status === 401) {
+                        setError(<Error>Twój link resetujący hasło stracił ważność</Error>)
+                    } else if (error.response.status === 404) {
+                        setError(<Error>Nie znaleziono użytkownika</Error>)
+                    } else if (error.response.status === 500) {
+                        setError(<Error>Wystąpił bład podczas uwierzytelniania użytkownika</Error>)
+                    }
+                })
         }
     };
 
     return (
         <Container forContainer={true}>
-            {error && <Error>{error}</Error>}
-            {success && <Error isalternative={true}>{success}</Error>}
+            <MainHeder>Hasło</MainHeder>
+            {error}
             <form onSubmit={handleResetPassword}>
                 <label>
                     <p> Podaj nowe hasło:</p>
@@ -43,7 +59,25 @@ export default function ResetPassword() {
                         isError={statusError}
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            setPassword(e.target.value)
+                            if (e.target.value.length === 0) {
+                                setError(<Error>Wpisz hasło</Error>);
+                                setStatusError(true)
+                            } else if (e.target.value.length < 6) {
+                                setError(<Error>Hasło musi zawierać minimum 6 znaków</Error>)
+                                setStatusError(true)
+                            } else if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(e.target.value)) {
+                                setError(<Error>Hasło musi zawierać znak specjalny np: @ ! # & % $</Error>)
+                                setStatusError(true)
+                            } else if (!/^[^\s]*$/.test(e.target.value)) {
+                                setError(<Error>Hasło nie może zawierać pustych znaków</Error>)
+                                setStatusError(true)
+                            } else {
+                                setError("");
+                                setStatusError(false);
+                            }
+                        }}
                     />
                 </label>
                 <label>
@@ -54,10 +88,19 @@ export default function ResetPassword() {
                         value={confirmPassword}
                         onChange={(e) => {
                             setConfirmPassword(e.target.value)
-                            if (confirmPassword !== password) {
-                                setError("Podane hasła nie sa identyczne")
+                            if (e.target.value !== password) {
+                                setError(<Error>Podane hasła nie sa identyczne</Error>)
                                 setStatusError(true)
-                            } else if(confirmPassword === password) {
+                            } else if (e.target.value.length < 6) {
+                                setError(<Error>Hasło musi zawierać minimum 6 znaków</Error>)
+                                setStatusError(true)
+                            } else if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(e.target.value)) {
+                                setError(<Error>Hasło musi zawierać znak specjalny np: @ ! # & % $</Error>)
+                                setStatusError(true)
+                            } else if (!/^[^\s]*$/.test(e.target.value)) {
+                                setError(<Error>Hasło nie może zawierać pustych znaków</Error>)
+                                setStatusError(true)
+                            } else {
                                 setStatusError(false);
                                 setError("")
                             }

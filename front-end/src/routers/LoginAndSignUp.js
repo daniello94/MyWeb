@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Navigate } from 'react-router-dom';
 /* components */
 import Container from "../components/Container";
 import MainHeder from "../components/MainHeder";
@@ -9,6 +10,7 @@ import MyInput from "../components/MyInput";
 import MyLink from "../components/MyLink";
 /* style */
 import "../views/LoginAndSignUp.module.scss";
+
 
 export default function LoginAndSignUp(props) {
     const [registration, setRegistration] = useState("");
@@ -37,61 +39,42 @@ export default function LoginAndSignUp(props) {
     const [errorStatus, setErrorStatus] = useState("");
 
     const registrationUser = () => {
-        if (isMyInputError === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (!firstName) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-            setMyInputError(true);
-        } else if (isMyInputErrorLastName === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (!lastName) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+        let info = "Popraw błedy aby się zarejestrować"
+        if (isMyInputError === true || !firstName) {
+            setErrorStatus(<Error>{info}</Error>);
+            setMyInputError(true)
+        } else if (isMyInputErrorLastName === true || !lastName) {
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorLastName(true);
-        } else if (isMyInputErrorNumberId === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (!numberId) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+        } else if (isMyInputErrorNumberId === true || !numberId) {
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorNumberId(true);
-        } else if (!phoneNumber) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+        } else if (isMyInputErrorPhoneNumber === true || !phoneNumber) {
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorPhoneNumber(true);
-        } else if (isMyInputErrorPhoneNumber === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (isMyInputErrorCity === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (!city) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+        } else if (isMyInputErrorCity === true || !city) {
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorCity(true);
-        } else if (isMyInputErrorStreet === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (!street) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+        } else if (isMyInputErrorStreet === true || !street) {
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorStreet(true);
-        } else if (isMyInputErrorNumber === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (!number) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+        } else if (isMyInputErrorNumber === true || !number) {
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorNumber(true);
-        } else if (isMyInputErrorZipCode === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (!zipCode) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+        } else if (isMyInputErrorZipCode === true || !zipCode) {
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorZipCode(true);
-        } else if (isMyInputErrorEmail === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (!email) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+        } else if (isMyInputErrorEmail === true || !email) {
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorEmail(true);
-        } else if (isMyInputErrorPassword === true) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
-        } else if (!password) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+        } else if (isMyInputErrorPassword === true || !password) {
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorPassword(true);
         } else if (!repPassword) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+            setErrorStatus(<Error>{info}</Error>);
             setMyInputErrorPassword(true);
         } else if (repPassword !== password) {
-            setErrorStatus(<Error>Popraw błedy aby się zarejestrować</Error>);
+            setErrorStatus(<Error>{info}</Error>);
             setError(<Error>Wpisane hasła nie są identyczne</Error>)
             setMyInputErrorPassword(true);
         } else {
@@ -99,6 +82,7 @@ export default function LoginAndSignUp(props) {
                 .then((res) => {
                     if (res.data.exists) {
                         setError(<Error>Adres email jest zajęty</Error>)
+                        setMyInputErrorEmail(true)
                     } else {
                         const formData = {
                             personalData: {
@@ -132,7 +116,8 @@ export default function LoginAndSignUp(props) {
                         setEmail("");
                         setPassword("");
                         setRepPassword("");
-                        setRegistration("")
+                        setRegistration("");
+                        setMyInputError(false);
                     }
                 })
                 .catch(() => {
@@ -161,6 +146,7 @@ export default function LoginAndSignUp(props) {
                     }
                 })
         }
+
     };
 
     if (registration === "openRegistration") {
@@ -184,6 +170,7 @@ export default function LoginAndSignUp(props) {
                                         setMyInputError(true);
                                     } else {
                                         setError("");
+                                        setErrorStatus("");
                                         setMyInputError(false);
                                     }
                                 }}
@@ -199,6 +186,7 @@ export default function LoginAndSignUp(props) {
                                         setMyInputErrorLastName(true);
                                     } else {
                                         setError("");
+                                        setErrorStatus("");
                                         setMyInputErrorLastName(false);
                                     }
                                 }}
@@ -226,6 +214,7 @@ export default function LoginAndSignUp(props) {
                                         return
                                     } else {
                                         setError("");
+                                        setErrorStatus("");
                                         setMyInputErrorNumberId(false);
                                     }
                                 }}
@@ -245,8 +234,9 @@ export default function LoginAndSignUp(props) {
                                         setMyInputErrorPhoneNumber(true)
                                         return
                                     } else {
-                                        setError("")
-                                        setMyInputErrorPhoneNumber(false)
+                                        setError("");
+                                        setErrorStatus("");
+                                        setMyInputErrorPhoneNumber(false);
                                     }
                                 }}
                                 placeholder="Numer kontaktowy" />
@@ -266,7 +256,8 @@ export default function LoginAndSignUp(props) {
                                         setMyInputErrorCity(true)
                                     } else {
                                         setError("");
-                                        setMyInputErrorCity(false)
+                                        setMyInputErrorCity(false);
+                                        setErrorStatus("");
                                     }
                                 }}
                                 placeholder="miasto" />
@@ -281,7 +272,8 @@ export default function LoginAndSignUp(props) {
                                         setMyInputErrorStreet(true)
                                     } else {
                                         setError("");
-                                        setMyInputErrorStreet(false)
+                                        setMyInputErrorStreet(false);
+                                        setErrorStatus("");
                                     }
                                 }}
                                 placeholder="ulica" />
@@ -296,7 +288,8 @@ export default function LoginAndSignUp(props) {
                                         setMyInputErrorNumber(true)
                                     } else {
                                         setError("");
-                                        setMyInputErrorNumber(false)
+                                        setMyInputErrorNumber(false);
+                                        setErrorStatus("");
                                     }
                                 }}
                                 placeholder="numer domu" />
@@ -311,7 +304,8 @@ export default function LoginAndSignUp(props) {
                                         setMyInputErrorZipCode(true);
                                     } else {
                                         setError("")
-                                        setMyInputErrorZipCode(false)
+                                        setMyInputErrorZipCode(false);
+                                        setErrorStatus("");
                                     }
                                 }}
                                 placeholder="kod pocztowy" />
@@ -335,7 +329,8 @@ export default function LoginAndSignUp(props) {
                                         return
                                     } else {
                                         setError("");
-                                        setMyInputErrorEmail(false)
+                                        setMyInputErrorEmail(false);
+                                        setErrorStatus("");
                                     }
                                 }}
                                 value={email}
@@ -348,9 +343,16 @@ export default function LoginAndSignUp(props) {
                                     if (e.target.value.length === 0) {
                                         setError("Wpisz hasło");
                                         setMyInputErrorPassword(true)
+                                    } else if (e.target.value.length < 6) {
+                                        setError(<Error>Hasło musi zawierać minimum 6 znaków</Error>)
+                                    } else if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(e.target.value)) {
+                                        setError(<Error>Hasło musi zawierać znak specjalny np: @ ! # & % $</Error>)
+                                    } else if (!/^[^\s]*$/.test(e.target.value)) {
+                                        setError(<Error>Hasło nie może zawierać pustych znaków</Error>)
                                     } else {
                                         setError("");
-                                        setMyInputErrorPassword(false)
+                                        setMyInputErrorPassword(false);
+                                        setErrorStatus("");
                                     }
                                 }}
                                 value={password}
@@ -367,8 +369,9 @@ export default function LoginAndSignUp(props) {
                                         setError(<Error>Wpisane hasła nie są identyczne</Error>)
                                         setMyInputErrorPassword(true)
                                     } else {
-                                        setError("")
-                                        setMyInputErrorPassword(false)
+                                        setError("");
+                                        setMyInputErrorPassword(false);
+                                        setErrorStatus("");
                                     }
                                 }}
                                 value={repPassword}
@@ -385,8 +388,10 @@ export default function LoginAndSignUp(props) {
                             setRegistration("");
                             setError("");
                             setErrorStatus("");
-                            setPassword("")
-                            setEmail("")
+                            setPassword("");
+                            setEmail("");
+                            setRepPassword("");
+                            setMyInputErrorEmail(false)
                         }}>Powrót do logowania</Button>
                     </div>
 
@@ -397,6 +402,7 @@ export default function LoginAndSignUp(props) {
     return (
         <Container secundContainer={true}>
             <MainHeder>Logowanie</MainHeder>
+            {props.userData && <Navigate to='/reset-password-email' />}
             {error}
             <form>
                 <MyInput

@@ -41,8 +41,8 @@ function resetPasswordToken(req, res) {
                 subject: "Resetowanie hsała",
                 html: `<p>Otrzymałeś ten e-mail, ponieważ otrzymaliśmy prośbę o resetowanie hasła dla Twojego konta.</p>
                 <p>Jeśli to nie Ty wysłałeś prośbę, możesz zignorować ten e-mail.</p>
-                <p>Jeśli chcesz zresetować swoje hasło, kliknij poniższy link:</p>
-                <a href=${resetPasswordLink}>${resetPasswordLink}</a>
+                <p>Jeśli chcesz zresetować swoje hasło, kliknij
+                <a href=${resetPasswordLink}>tutaj</a></p>
                 <p>Link będzie ważny przez 24 godziny.</p>`
             }
             transporter.sendMail(mailOptions, (err, info) => {
@@ -69,24 +69,24 @@ async function resetPassword(req, res) {
         // Użyj metody verify() do sprawdzenia tokenu
         jwt.verify(token, process.env.JWT_PRIVATE_KEY, async (err, decoded) => {
             if (err) {
-                return res.status(401).send("Twoje uwierzytelnienie sie przedawniło");
+                return res.status(401).send({ error: "Twoje uwierzytelnienie sie przedawniło" });
             }
 
             // Znajdź użytkownika o podanym ID
             const user = await User.findOne({ _id: decoded.userId });
 
             if (!user) {
-                return res.status(404).send("Nie znaleziono użytkownika");
+                return res.status(404).send({ error: "Nie znaleziono użytkownika" });
             }
 
             // Sprawdź czy token jest aktualny i należy do tego użytkownika
             if (Date.now() > user.resetPasswordExpires) {
                 return res
                     .status(401)
-                    .send("Twoje uwierzytelnienie sie przedawniło lub token jest nieprawidłowy");
+                    .send({ error: "Twoje uwierzytelnienie sie przedawniło lub token jest nieprawidłowy" });
             }
             if (token !== user.tokenResetPassword) {
-                return res.status(401).send("Token jest nieprawidłowy");
+                return res.status(401).send({ error: "Token jest nieprawidłowy" });
             }
 
             // Wygeneruj solę i zahashuj hasło
@@ -99,11 +99,10 @@ async function resetPassword(req, res) {
                 { password: hash },
                 { new: true }
             );
-            res.send("Hasło zostało zresetowane");
+            res.status(200).send("Hasło zostało zresetowane");
         });
     } catch (err) {
-        console.log(err);
-        return res.status(500).send("Wystąpił błąd podczas uwierzytalniania użytkownika");
+        return res.status(500).send({ error: "Wystąpił błąd podczas uwierzytalniania użytkownika" });
     }
 }
 

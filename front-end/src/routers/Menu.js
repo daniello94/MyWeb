@@ -32,7 +32,7 @@ export default function Menu(props) {
         <Container thirdContainer={true}>
             <nav className={styles.mainNav}>
                 <div className={styles[isClose]} onClick={() => menuHamburgerStan()}>
-                    <BiMenu className={styles.iconOpen} />
+                        <BiMenu className={styles.iconOpen} />  
                 </div>
                 <div className={styles[isActive]}>
                     <div className={styles.contentOpenMenu}>
@@ -48,10 +48,8 @@ export default function Menu(props) {
                             </li>
                         </ul>
                     </div>
-
                 </div>
             </nav>
-
             <Link className={styles.logoContent} to="/"><img src={logoCompany} onClick={() => {
                 setActive("close")
                 setClose("open")
@@ -59,14 +57,18 @@ export default function Menu(props) {
 
             {!props.userData && (
                 <div className={styles.contentLinkMenu}>
-                    <BsFillPersonFill className={styles.iconUser} onClick={props.userOption} />
+                    <MyLink to="/signup" className={styles.iconUser}><BsFillPersonFill className={styles.iconUserLogin} onClick={props.userOption} /></MyLink>
                 </div>
             )}
 
             {props.userData && (
-                <Link className={styles.mainItem} to="/" onClick={logOut}><BiLogOut className={styles.iconLogOut} /></Link>
+                <div className={styles.contentNameAndLink}>
+                    <div className={styles.userName}>
+                        <p>Witaj {props.userData.user.personalData.firstName}</p>
+                    </div>
+                    <Link className={styles.mainItem} to="/" onClick={logOut}><BiLogOut className={styles.iconLogOut} /></Link>
+                </div>
             )}
         </Container>
-
     )
 }

@@ -17,6 +17,7 @@ import SendEmailResetPassword from "./routers/SendEmailResetPassword";
 import ResetPassword from "./routers/ResetPassword";
 /* components */
 import Container from "./components/Container";
+import MyLink from "./components/MyLink";
 
 
 export default function App() {
@@ -41,13 +42,13 @@ export default function App() {
         setUser={setUser} />
 
       {/* login and registration */}
+
       {!userData && (
         <div className={styles[stanUser]}>
           <div className={styles.zIndex}>
-            <BiX onClick={() => userOption()} className={styles.iconClose} />
+            <MyLink to="/"> <BiX onClick={() => userOption()} className={styles.iconClose} /></MyLink>
             <div className={styles.linkActionLogin}>
-              <LoginAndSignUp
-                userOption={() => userOption()}
+              <LoginAndSignUp userOption={() => userOption()}
                 userData={userData}
                 setUser={setUser} />
             </div>
@@ -55,9 +56,17 @@ export default function App() {
         </div>
       )}
       <Routes>
+        <Route path="/signup"
+          element={
+            <LoginAndSignUp
+              userOption={() => userOption()}
+              userData={userData}
+              setUser={setUser} />
+          } />
         <Route path="/reset-password/:token"
           element={
-            <ResetPassword />
+            <ResetPassword
+              userOption={() => userOption()} />
           } />
         <Route path="/reset-password-email"
           element={

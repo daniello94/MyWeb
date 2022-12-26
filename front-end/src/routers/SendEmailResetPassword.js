@@ -15,9 +15,8 @@ export default function SendEmailResetPassword() {
     const [errorInput, setErrorInput] = useState(false)
 
     const setEmailGenerateToken = () => {
-        if (!email) {
+        if (errorInput === true || !email) {
             setError(<Error>To pole nie może być puste</Error>)
-            setErrorInput(true)
         } else if (errorInput === false) {
             axios.post("http://127.0.0.1:8080/user/generate-token", {
                 email: email
@@ -25,6 +24,7 @@ export default function SendEmailResetPassword() {
                 .then((res) => {
                     if (res.status === 200) {
                         setError(<Error isAlternative={true}>Link resetujący hasło został wysłąny na podany adres email</Error>)
+                        setErrorInput(false)
                         setEmail("")
                     }
                 })
@@ -41,7 +41,6 @@ export default function SendEmailResetPassword() {
         <Container forContainer={true}>
             <MyHeder>Reset Hasła</MyHeder>
             <p>Wpisz adres email z którym masz powiązane konto</p>
-
             {error}
             <form>
                 <MyInput
@@ -51,13 +50,10 @@ export default function SendEmailResetPassword() {
                     value={email}
                     onChange={(e) => {
                         setEmail(e.target.value)
-                        if ((!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(e.target.value))) {
+                        if (e.target.value === 0) {
                             setErrorInput(true)
-                            setError(<Error>Podałeś nie wąsciwą skłądnie email</Error>)
-                        } else if (e.target.value === 0) {
-                            setErrorInput(true)
-                            setError(<Error>To pole nie może być puste</Error>)
                         } else {
+                            setError("")
                             setErrorInput(false)
                         }
                     }} />
