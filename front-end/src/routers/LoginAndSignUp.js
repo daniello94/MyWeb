@@ -11,7 +11,6 @@ import MyLink from "../components/MyLink";
 /* style */
 import "../views/LoginAndSignUp.module.scss";
 
-
 export default function LoginAndSignUp(props) {
     const [registration, setRegistration] = useState("");
     const [isMyInputError, setMyInputError] = useState(false);
@@ -402,7 +401,7 @@ export default function LoginAndSignUp(props) {
     return (
         <Container secundContainer={true}>
             <MainHeder>Logowanie</MainHeder>
-            {props.userData && <Navigate to='/reset-password-email' />}
+            {props.userData && <Navigate to='/' />}
             {error}
             <form>
                 <MyInput

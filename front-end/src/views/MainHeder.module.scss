@@ -1,6 +1,22 @@
-.heder{
-    font-size: 50px;
+%commonHeder {
     margin: 0;
-    font-family: 'Lacquer', cursive;
     letter-spacing: 2px;
+}
+.heder {
+    font-size: 50px;
+    font-family: "Lacquer", cursive;
+    @extend %commonHeder;
+}
+.secundHeder {
+    color: silver;
+    font-size: 50px;
+    font-family: "Lacquer", cursive;
+    @extend %commonHeder;
+}
+/* secundHederH2 */
+.hederH2 {
+    font-size: 30px;
+    font-family: "Lobster", cursive;
+    font-weight: 700;
+    @extend %commonHeder;
 }

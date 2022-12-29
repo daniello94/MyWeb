@@ -5,7 +5,8 @@ const MyLink = (props) => {
     return (
         <Link
             className={`${styles.link}
-                        ${props.secondLink && styles.secondLink}`}
+                        ${props.secondLink && styles.secondLink}
+                        ${props.treeLink && styles.treeLink}`}
             to={props.to}
             onClick={props.onClick}
         >{props.children}</Link>

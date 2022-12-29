@@ -5,6 +5,7 @@ const cors = require('cors');
 
 /* api */
 const user = require('./app/userApi');
+const equipment = require('./app/EquipmentApi');
 
 const config = {
     origin: 'http://' + process.env.DB_HOST
@@ -13,6 +14,7 @@ const config = {
 app.use(express.json());
 app.use(cors());
 app.use('/user', user);
+app.use('/equipment', equipment)
 
 app.get('/', cors(config), function (req, res) {
     res.status(219).json("Projekt serwisu")

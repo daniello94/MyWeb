@@ -3,7 +3,7 @@ const router = express.Router();
 const user = require('./controller/user.controller');
 
 router.post('/generate-token', function (req, res) {
-    user.tokenReset(req,res)
+    user.tokenReset(req, res)
 })
 
 router.post('/reset-password', function (req, res) {
@@ -51,7 +51,7 @@ router.post('/login', function (req, res) {
 });
 
 router.delete('/delate/:id', function (req, res) {
-    user.userDelate(req.params.id, function (err, data) {
+    user.delate(req.params.id, function (err, data) {
         if (err) {
             res.status(404)
             res.json({
@@ -59,6 +59,31 @@ router.delete('/delate/:id', function (req, res) {
             })
         } else {
             res.json(data)
+        }
+    })
+});
+router.post('/all', function (req, res) {
+    user.list(function (err, users) {
+        if (err) {
+            res.status(404);
+            res.json({
+                error: 'users not found'
+            })
+        } else {
+            res.json(users)
+        }
+    })
+});
+
+router.get('/:id', function (req, res) {
+    user.get(req.params.id, function (err, user) {
+        if (err) {
+            res.status(404);
+            res.json({
+                error: 'user not found'
+            })
+        } else {
+            res.json(user)
         }
     })
 });

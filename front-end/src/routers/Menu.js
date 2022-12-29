@@ -32,7 +32,7 @@ export default function Menu(props) {
         <Container thirdContainer={true}>
             <nav className={styles.mainNav}>
                 <div className={styles[isClose]} onClick={() => menuHamburgerStan()}>
-                        <BiMenu className={styles.iconOpen} />  
+                    <BiMenu className={styles.iconOpen} />
                 </div>
                 <div className={styles[isActive]}>
                     <div className={styles.contentOpenMenu}>
@@ -44,8 +44,19 @@ export default function Menu(props) {
                                 <MyLink onClick={() => menuHamburgerStan()} to="/">Home</MyLink>
                             </li>
                             <li>
-                                <MyLink onClick={() => menuHamburgerStan()} to="/signup">Registration</MyLink>
+                                <MyLink onClick={() => menuHamburgerStan()} to="/">O nas</MyLink>
                             </li>
+                            {props.userData && (
+                                <li>
+                                    <MyLink onClick={() => menuHamburgerStan()} to="/delate">Usuń konto</MyLink>
+                                </li>
+                            )}
+                            {(props.userData?.user.role === "employee" || props.userData?.user.role === "admin") && (
+
+                                <li>
+                                    <MyLink onClick={() => menuHamburgerStan()} to="/administration">Panel Administracyjny</MyLink>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>
@@ -57,7 +68,7 @@ export default function Menu(props) {
 
             {!props.userData && (
                 <div className={styles.contentLinkMenu}>
-                    <MyLink to="/signup" className={styles.iconUser}><BsFillPersonFill className={styles.iconUserLogin} onClick={props.userOption} /></MyLink>
+                    <MyLink to="/signup" className={styles.iconUser} onClick={props.userOption}><BsFillPersonFill className={styles.iconUserLogin} /></MyLink>
                 </div>
             )}
 

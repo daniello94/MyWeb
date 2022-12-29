@@ -56,7 +56,7 @@ const schema = mongoose.Schema({
         type: String,
         trim: true,
         default: 'client',
-        enum: ['admin', 'rental-employee', 'client']
+        enum: ['admin', 'employee', 'client']
     },
     tokenResetPassword: String,
     resetPasswordExpires: Date,

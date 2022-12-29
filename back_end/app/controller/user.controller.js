@@ -159,11 +159,32 @@ function delateUser(id, cb) {
     })
 };
 
+function listUser(cb) {
+    User.find().lean().exec(function (err, users) {
+        if (err) {
+            cb(err)
+        } else {
+            cb(null, users)
+        }
+    })
+};
+function getUser(id, cb) {
+    User.findById(id).exec(function (err, user) {
+        if (err) {
+            cb(err)
+        } else {
+            cb(null, user)
+        }
+    })
+};
+
 module.exports = {
     add: addUser,
     login: loginUser,
     delate: delateUser,
     email: checkEmailUniqueness,
+    get: getUser,
     tokenReset: resetPasswordToken,
-    reset: resetPassword
+    reset: resetPassword,
+    list: listUser
 }

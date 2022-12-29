@@ -6,7 +6,10 @@ const Container = (props) => {
             `${styles.container}
              ${props.secundContainer && styles.secundContainer}
              ${props.thirdContainer && styles.thirdContainer}
-             ${props.forContainer && styles.forContainer}`
+             ${props.forContainer && styles.forContainer}
+             ${props.fiveContainer && styles.fiveContainer}
+             ${props.sixContainer && styles.sixContainer}
+             ${props.sevenContainer && styles.sevenContainer}`
         }>{props.children}</div>
     )
 }
