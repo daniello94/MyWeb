@@ -11,6 +11,8 @@ const config = {
     origin: 'http://' + process.env.DB_HOST
 };
 
+app.use('/photo', express.static('photoService'));
+
 app.use(express.json());
 app.use(cors());
 app.use('/user', user);

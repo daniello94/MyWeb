@@ -29,7 +29,12 @@
         background-color: white;
         color: black;
     }
+}
 
+.forBtn{
+    @extend %commonBtnAndLink;
+    font-size: 10px;
+    padding: 2px;
 }
 /* styles for link */
 .link {

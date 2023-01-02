@@ -1,6 +1,6 @@
 .administrationNav{
     width: 20%;
-    height: 800px;
+   height: 850px;
     margin-right: 10px;
     display: flex;
     flex-direction: column;
@@ -12,6 +12,7 @@
 }
 .viewsPanel{
     width: 80%;
+    max-height: 800px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;

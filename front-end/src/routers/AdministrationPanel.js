@@ -8,6 +8,7 @@ import MainSecondHeder from "../components/MainSecoundHeder";
 /* routes */
 import AddEmployee from "./AddEmployee";
 import ListUser from "./ListUser";
+import AddEquipment from "./AddEquipment";
 
 export default function AdministrationPanel(props) {
     const [views, setViews] = useState("");
@@ -42,7 +43,7 @@ export default function AdministrationPanel(props) {
                                 <Button onClick={() => setViews('listUser')} thirdBtn={true}>Lista Uzytkowników</Button>
                             </li>
                             <li>
-                                <Button onClick={() => setViews('addEquipment')} thirdBtn={true}>Dodaj narzedzie</Button>
+                                <Button onClick={() => setViews('addEquipment')} thirdBtn={true}>Urządzenia</Button>
                             </li>
                         </ul>
                     </nav>
@@ -58,7 +59,7 @@ export default function AdministrationPanel(props) {
                         <ListUser userData={props.userData} />
                     )}
                     {views === "addEquipment" && (
-                        <p> dodaj narzedzia</p>
+                        < AddEquipment />
                     )}
                 </div>
             </Container>

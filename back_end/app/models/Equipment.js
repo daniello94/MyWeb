@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://' + process.env.DB_HOST + '/' + process.env.DB_NAME, { useNewUrlParser: true, useUnifiedTopology: true });
-
+const Photo = require("./Photo").schema
 const conclusion = new mongoose.Schema({
     oderStan: {
         type: String,
@@ -64,9 +64,22 @@ const equipments = new mongoose.Schema({
         default: "",
     },
 
-    gallery: [],
+    gallery: [Photo],
+
+    lengthGallery: {
+        type: String,
+        default: "0"
+    },
 
     year: {
+        type: String,
+        default: ""
+    },
+    mainPicture: {
+        type: String,
+        default: ""
+    },
+    idMainPicture: {
         type: String,
         default: ""
     },

@@ -1,5 +1,6 @@
 const Equipment = require("../models/Equipment");
 const Photo = require("../models/Photo");
+const fs = require('fs');
 
 function addEquipment(data, cb) {
     let newEquipment = new Equipment(data);
@@ -42,7 +43,51 @@ function photoAdd(data, cb) {
             )
         }
     })
+};
+
+function photoRemove(data, cb) {
+    Photo.findByIdAndDelete(data[1], function (err, deletedPhoto) {
+        if (err) {
+            cb(err);
+        } else {
+            fs.unlink('./photoService/' + deletedPhoto.photo, function (err) {
+                if (err) {
+                    cb(err);
+                }
+                Equipment.findById(data[0], function (err, equipment) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        cb(null);
+                    }
+                });
+                Equipment.updateOne(
+                    { _id: data[0], gallery: { $elemMatch: { photo: deletedPhoto.photo } } },
+                    { $pull: { gallery: { photo: deletedPhoto.photo } } },
+                    function (err) {
+                        if (err) {
+                            cb(err);
+                        } else {
+                            cb(null);
+                        }
+                    }
+                );
+            });
+        }
+    });
 }
+function conclusionRemove(data, cb) {
+    Equipment.updateOne(
+        { _id: data[0] },
+        { $pull: { gallery: data[1] } },
+        function (err, conclusion) {
+            if (err) {
+                cb(err)
+            } else {
+                cb(null, conclusion)
+            }
+        })
+};
 
 function conclusionAdd(data, cb) {
     Equipment.updateOne(
@@ -92,7 +137,9 @@ module.exports = {
     delete: delateEquipment,
     photo: photoAdd,
     application: conclusionAdd,
-    list:listEquipment,
-    get:getEquipment,
-    update:updateStan
+    list: listEquipment,
+    get: getEquipment,
+    update: updateStan,
+    deletePhoto: photoRemove,
+    delateTwo: conclusionRemove
 }

@@ -5,7 +5,8 @@ const Button = (props) => {
         <button className={
             `${styles.btn}
              ${props.secundBtn && styles.secundBtn}
-             ${props.thirdBtn && styles.thirdBtn}`
+             ${props.thirdBtn && styles.thirdBtn}
+             ${props.forBtn && styles.forBtn}`
         } onClick={props.onClick}>{props.children}</button>
     )
 }

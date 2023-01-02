@@ -53,13 +53,11 @@ export default function AddEmployee() {
                             email: email,
                             password: password,
                             role: "employee"
-
                         }
                         axios.post('http://127.0.0.1:8080/user/signup', formData)
                             .then(() => {
                                 setError(<Error isAlternative={true}>Dodałeś pracownika</Error>)
                             })
-
                     }
                 })
                 .catch(() => {
@@ -78,7 +76,6 @@ export default function AddEmployee() {
                 {error}
                 <p>Dane Personalne</p>
                 <label>
-
                     <MyInput isError={isMyInputError}
                         type="text"
                         value={firstName}
@@ -133,7 +130,6 @@ export default function AddEmployee() {
                             } else {
                                 setError("");
                                 setMyInputErrorEmail(false);
-
                             }
                         }}
                         value={email}
@@ -155,7 +151,6 @@ export default function AddEmployee() {
                             } else {
                                 setError("");
                                 setMyInputErrorPassword(false);
-
                             }
                         }}
                         value={password}
@@ -174,7 +169,6 @@ export default function AddEmployee() {
                             } else {
                                 setError("");
                                 setMyInputErrorPassword(false);
-
                             }
                         }}
                         value={repPassword}

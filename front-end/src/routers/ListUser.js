@@ -155,9 +155,7 @@ export default function ListUser(props) {
                     <Button onClick={() => setViews("")}>Wróć</Button>
                 </div>
             )
-
         }
-
     }
     return (
         <div className={styles.content}>
@@ -193,7 +191,6 @@ export default function ListUser(props) {
                                     </td>
                                     <td>{user.phoneNumber}</td>
                                     <td>{user.email}</td>
-
                                     {deleteQuestion === "open" && (
                                         <td>
                                             <p>Jesteś Pewien?</p>

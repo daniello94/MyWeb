@@ -52,7 +52,6 @@ export default function Menu(props) {
                                 </li>
                             )}
                             {(props.userData?.user.role === "employee" || props.userData?.user.role === "admin") && (
-
                                 <li>
                                     <MyLink onClick={() => menuHamburgerStan()} to="/administration">Panel Administracyjny</MyLink>
                                 </li>

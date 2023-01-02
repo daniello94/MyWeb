@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
         cb(null, 'photoService')
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
+        cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname))
     }
 })
 
@@ -104,4 +104,29 @@ router.put('/update/:id', function (req, res) {
         }
     })
 });
+
+router.delete('/renamePhoto/:id', function (req, res) {
+    let photoId = req.params.id;
+    let equipmentId = req.body.equipmentId;
+    equipment.deletePhoto([equipmentId, photoId], function (err, updatedEquipment) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(updatedEquipment);
+        }
+    });
+});
+
+router.delete('/:id/application', function (req, res) {
+    const equipmentId = req.params.id;
+    const applicationId = req.body.id;
+    equipment.delateTwo([equipmentId, applicationId], function (err, updatedEquipment) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(updatedEquipment);
+        }
+    });
+});
+
 module.exports = router
