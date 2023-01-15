@@ -17,11 +17,9 @@ function resetPasswordToken(req, res) {
 
             const token = user.generateResetPasswordToken();
             user.tokenResetPassword = token;
-            user.resetPasswordExpires = Date.now() + 24 * 60 * 60 * 1000; // expires in 24 hours
+            user.resetPasswordExpires = Date.now() + 24 * 60 * 60 * 1000;
             user.save();
 
-            // Send email with reset password link
-            // ...
             process.env.NODE_TLS_REJECT_UNAUTHORIZED = "1";
             const transporter = nodemailer.createTransport({
                 service: "gmail",
@@ -62,24 +60,21 @@ function resetPasswordToken(req, res) {
 
 async function resetPassword(req, res) {
     try {
-        // Pobierz token i hasło z body requesta
+    
         const token = req.body.token;
         const password = req.body.password;
 
-        // Użyj metody verify() do sprawdzenia tokenu
         jwt.verify(token, process.env.JWT_PRIVATE_KEY, async (err, decoded) => {
             if (err) {
                 return res.status(401).send({ error: "Twoje uwierzytelnienie sie przedawniło" });
             }
 
-            // Znajdź użytkownika o podanym ID
             const user = await User.findOne({ _id: decoded.userId });
 
             if (!user) {
                 return res.status(404).send({ error: "Nie znaleziono użytkownika" });
             }
 
-            // Sprawdź czy token jest aktualny i należy do tego użytkownika
             if (Date.now() > user.resetPasswordExpires) {
                 return res
                     .status(401)
@@ -89,11 +84,9 @@ async function resetPassword(req, res) {
                 return res.status(401).send({ error: "Token jest nieprawidłowy" });
             }
 
-            // Wygeneruj solę i zahashuj hasło
             const salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
             const hash = await bcrypt.hash(password, salt);
 
-            // Zastąp dotychczasowe hasło nowym hashem
             await User.findByIdAndUpdate(
                 { _id: decoded.userId },
                 { password: hash },

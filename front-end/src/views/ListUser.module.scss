@@ -38,6 +38,14 @@ table {
         td {
             @extend %commonThead;
         }
+        select{
+            width: 80%;
+            padding: 5px;
+            background-color: black;
+            border: 2px solid white;
+            color: white;
+            text-align: center;
+        }
     }
     .thead {
         @extend %commonThead;

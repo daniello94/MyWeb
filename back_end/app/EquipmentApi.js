@@ -40,18 +40,29 @@ router.post('/add', function (req, res) {
 
 });
 
-router.delete('/delate/:id', function (req, res) {
-    equipment.delete(req.params.id, function (err, data) {
-        if (err) {
-            res.status(404)
-            res.json({
-                error: "Equipment not found"
-            })
-        } else {
-            res.json(data)
-        }
-    })
+// router.delete('/delate/:id', function (req, res) {
+//     equipment.delete(req.params.id, function (err, data) {
+//         if (err) {
+//             res.status(404)
+//             res.json({
+//                 error: "Equipment not found"
+//             })
+//         } else {
+//             res.json(data)
+//         }
+//     })
+// });
+
+router.delete('/delate/:id', async (req, res) => {
+    try {
+        await equipment.delete(req.params.id);
+        res.sendStatus(200);
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
 });
+
 router.put('/photo/:id', upload.single('photo'), function (req, res) {
     const photo = req.file.filename;
     const newPhoto = { photo }
@@ -113,18 +124,6 @@ router.delete('/renamePhoto/:id', function (req, res) {
             res.status(500).send(err);
         } else {
             res.send(updatedEquipment);
-        }
-    });
-});
-
-router.delete('/:id/application', function (req, res) {
-    const equipmentId = req.params.id;
-    const applicationId = req.body.id;
-    equipment.delateTwo([equipmentId, applicationId], function (err, updatedEquipment) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send(updatedEquipment);
         }
     });
 });

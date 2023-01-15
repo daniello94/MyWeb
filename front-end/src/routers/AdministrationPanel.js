@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 /* components and style */
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -11,7 +11,21 @@ import ListUser from "./ListUser";
 import AddEquipment from "./AddEquipment";
 
 export default function AdministrationPanel(props) {
+    const { onIsOnPageChange } = props;
     const [views, setViews] = useState("");
+    const [isOnPage, setIsOnPage] = useState(false);
+
+    useEffect(() => {
+        const currentUrl = window.location.pathname;
+        if (currentUrl === '/administration') {
+            setIsOnPage(true);
+            onIsOnPageChange(true);
+        } else {
+            setIsOnPage(false);
+            onIsOnPageChange(false);
+        }
+    }, [isOnPage, onIsOnPageChange]);
+
     const getGreeting = () => {
         const currentHour = new Date().getHours();
         if (currentHour >= 3 && currentHour < 6) {
@@ -26,6 +40,7 @@ export default function AdministrationPanel(props) {
             return "Dobrej nocy!";
         }
     }
+
     return (
         <Container sevenContainer={true}>
             <MainHeder secundHeder={true}>Panel Administracyjny</MainHeder>

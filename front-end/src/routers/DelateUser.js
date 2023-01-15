@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 /* components */
 import Container from "../components/Container";
@@ -15,6 +15,15 @@ export default function DelateUser(props) {
     const [stanUser, setStanUser] = useState(false)
     const id = props.userData.user._id;
     const userEmail = props.userData.user.email;
+    const { onIsOnPageChange } = props;
+    useEffect(() => {
+        const currentUrl = window.location.pathname;
+        if (currentUrl === '/delate') {
+          onIsOnPageChange(true);
+        } else {
+          onIsOnPageChange(false);
+        }
+      }, [onIsOnPageChange]);
 
     const delateUser = () => {
         if (!email) {

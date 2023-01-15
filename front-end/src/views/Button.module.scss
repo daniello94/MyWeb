@@ -41,11 +41,11 @@
     @extend %commonBtnAndLink;
     border: 2px solid transparent;
     font-size: 20px;
-    color: black;
+    color: white;
     text-decoration: none;
     &:hover {
-        background-color: black;
-        color: white;
+        background-color: white;
+        color: black;
         opacity: 0.8;
     }
 }
@@ -56,4 +56,34 @@
 }
 .treeLink{
     border: 1px solid black;
+}
+.forLink{
+  color: white;
+  margin-right: 20px;
+  font-size: 25px;
+}
+
+/* media */
+
+@media all and (max-width: 1280px) {
+    .forLink{
+        color: white;
+        margin-right: 18px;
+        font-size: 23px;
+      }
+}
+@media all and (max-width: 991px) {
+    .forLink{
+        color: white;
+        margin-right: 16px;
+        font-size: 20px;
+      }
+}
+@media all and (max-width: 768px) {
+    .forLink{
+        color: white;
+        margin-right: 12px;
+        font-size: 18px;
+      }
+    
 }

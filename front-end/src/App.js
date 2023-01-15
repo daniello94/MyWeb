@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Route,
   Routes
@@ -7,7 +7,6 @@ import axios from "axios";
 
 /* media style and icons*/
 import { BiX } from "react-icons/bi";
-import videoHeder from "./media/heder.mp4";
 import styles from "./views/App.module.scss";
 
 /* routers */
@@ -24,6 +23,8 @@ import MyLink from "./components/MyLink";
 
 export default function App() {
   const [stanUser, setStanUser] = useState("close");
+  const [isOnPage, setIsOnPage] = useState(false);
+  const [classNameMenu, setClassNameMenu] = useState("initialClass")
   const [userData, setUser] = useState(
     JSON.parse(localStorage.getItem('user'))
   );
@@ -36,60 +37,85 @@ export default function App() {
       setStanUser("close")
     }
   };
+  const handleIsOnPageChange = (value) => {
+    setIsOnPage(value);
+  }
+  console.log(isOnPage,"app");
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleScroll = () => {
+    const scrollPosition = window.pageYOffset / document.body.offsetHeight;
+    if (scrollPosition > 0.2) {
+      setClassNameMenu('activeClass');
+    } else {
+      setClassNameMenu('initialClass');
+    }
+  };
+
   return (
-    <Container>
-      <video className={styles.videoHeder} src={videoHeder} autoPlay loop muted />
+    <div className={styles.contentApp}>
       <Menu userOption={() => userOption()}
         userData={userData}
-        setUser={setUser} />
-
-      {/* login and registration */}
-
-      {!userData && (
-        <div className={styles[stanUser]}>
-          <div className={styles.zIndex}>
-            <MyLink to="/"> <BiX onClick={() => userOption()} className={styles.iconClose} /></MyLink>
-            <div className={styles.linkActionLogin}>
-              <LoginAndSignUp userOption={() => userOption()}
-                userData={userData}
-                setUser={setUser} />
+        setUser={setUser}
+        activeClassMenu={classNameMenu}
+        menuAdministrationPanel={isOnPage} />
+      <Container>
+        {/* login and registration */}
+        {!userData && (
+          <div className={styles[stanUser]}>
+            <div className={styles.zIndex}>
+              <MyLink to="/"> <BiX onClick={() => userOption()} className={styles.iconClose} /></MyLink>
+              <div className={styles.linkActionLogin}>
+                <LoginAndSignUp userOption={() => userOption()}
+                  userData={userData}
+                  setUser={setUser} />
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      <Routes>
-        <Route path="/signup"
-          element={
-            <LoginAndSignUp
-              userOption={() => userOption()}
-              userData={userData}
-              setUser={setUser} />
-          } />
-        <Route path="/reset-password/:token"
-          element={
-            <ResetPassword
-              userOption={() => userOption()} />
-          } />
-        <Route path="/reset-password-email"
-          element={
-            <SendEmailResetPassword />
-          } />
-        <Route path="/administration"
-          element={
-            <AdministrationPanel
-            userData={userData} />
-          } />
-        <Route path="/delate"
-          element={
-            <DelateUser
-              userData={userData} />
-          } />
-        <Route path="/"
-          element={
-            <Home />
-          } />
-      </Routes>
-    </Container>
+        )}
+        <Routes>
+          <Route path="/signup"
+            element={
+              <LoginAndSignUp
+                userOption={() => userOption()}
+                userData={userData}
+                setUser={setUser} />
+            } />
+          <Route path="/reset-password/:token"
+            element={
+              <ResetPassword
+                userOption={() => userOption()}
+                onIsOnPageChange={handleIsOnPageChange}  />
+            } />
+          <Route path="/reset-password-email"
+            element={
+              <SendEmailResetPassword
+              onIsOnPageChange={handleIsOnPageChange} />
+            } />
+          <Route path="/administration"
+            element={
+              <AdministrationPanel
+                userData={userData}
+                onIsOnPageChange={handleIsOnPageChange} />
+            } />
+          <Route path="/delate"
+            element={
+              <DelateUser
+                userData={userData}
+                onIsOnPageChange={handleIsOnPageChange}  />
+            } />
+          <Route path="/"
+            element={
+              <Home
+              onIsOnPageChange={handleIsOnPageChange}  />
+            } />
+        </Routes>
+      </Container>
+    </div>
 
   )
 };

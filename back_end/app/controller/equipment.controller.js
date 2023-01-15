@@ -1,6 +1,7 @@
 const Equipment = require("../models/Equipment");
 const Photo = require("../models/Photo");
 const fs = require('fs');
+const path = require('path');
 
 function addEquipment(data, cb) {
     let newEquipment = new Equipment(data);
@@ -13,15 +14,36 @@ function addEquipment(data, cb) {
     })
 };
 
-function delateEquipment(id, cb) {
-    Equipment.deleteOne({ _id: id }, function (err, equipment) {
-        if (err) {
-            cb(err)
-        } else {
-            cb(null, equipment)
+// function delateEquipment(id, cb) {
+//     Equipment.deleteOne({ _id: id }, function (err, equipment) {
+//         if (err) {
+//             cb(err)
+//         } else {
+//             cb(null, equipment)
+//         }
+//     })
+// };
+
+async function deleteEquipment(id) {
+
+    try {
+        // Pobierz elementy z tablicy gallery, jeśli istnieje
+        let gallery = [];
+        const equipment = await Equipment.findOne({ _id: id });
+        if (equipment.hasOwnProperty('gallery')) {
+            gallery = equipment.gallery.photo;
         }
-    })
-};
+        if (!Array.isArray(gallery)) {
+            throw new Error(`Zmienna gallery nie jest tablicą: ${gallery}`);
+        }
+        // Usuń elementy z modelu Photo, których nazwy są takie same jak elementy z tablicy gallery
+        const deletedPhotos = await Photo.deleteMany({ name: { $in: gallery } });
+        console.log(`Usunięto ${deletedPhotos.deletedCount} elementów z modelu Photo`);
+        console.log(deletedPhotos)
+    } catch (err) {
+        throw err;
+    }
+}
 
 function photoAdd(data, cb) {
     let newPhoto = new Photo(data[1]);
@@ -54,7 +76,7 @@ function photoRemove(data, cb) {
                 if (err) {
                     cb(err);
                 }
-                Equipment.findById(data[0], function (err, equipment) {
+                Equipment.findById(data[0], function (err) {
                     if (err) {
                         cb(err);
                     } else {
@@ -76,18 +98,6 @@ function photoRemove(data, cb) {
         }
     });
 }
-function conclusionRemove(data, cb) {
-    Equipment.updateOne(
-        { _id: data[0] },
-        { $pull: { gallery: data[1] } },
-        function (err, conclusion) {
-            if (err) {
-                cb(err)
-            } else {
-                cb(null, conclusion)
-            }
-        })
-};
 
 function conclusionAdd(data, cb) {
     Equipment.updateOne(
@@ -134,12 +144,11 @@ function updateStan(id, data, cb) {
 };
 module.exports = {
     add: addEquipment,
-    delete: delateEquipment,
+    delete: deleteEquipment,
     photo: photoAdd,
     application: conclusionAdd,
     list: listEquipment,
     get: getEquipment,
     update: updateStan,
-    deletePhoto: photoRemove,
-    delateTwo: conclusionRemove
+    deletePhoto: photoRemove
 }

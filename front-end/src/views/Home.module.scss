@@ -1,16 +1,61 @@
-.textHeder{
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-    text-align: center;
-    p{
-      margin: 30px;
+.textHeder {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  text-align: center;
+  p {
+    color: white;
+  }
+
+  /* media */
+  @media all and (max-width: 480px) {
+    margin-top: 15px;
+  }
+  p {
+    margin: 30px;
+    /* media */
+    @media all and (max-width: 480px) {
+      font-size: 13px;
+      margin-top: 10px;
     }
+  }
 }
-.sloganText{
-    font-family: 'Dancing Script', cursive;
-    font-size: 17px;
+.sloganText {
+  font-family: "Dancing Script", cursive;
+  font-size: 17px;
+  color: white;
+  /* media */
+  @media all and (max-width: 480px) {
+    font-size: 12px;
+  }
+}
+.contentHome {
+  position: absolute;
+  top: 300px;
+  background-color: black;
+  color: white;
+  opacity: 0.7;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .active-class {
+    font-size: 10000px;
+    color: aqua;
+  }
+}
+.videoHeder {
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  z-index: -1;
+  video {
+    object-fit: cover;
+    width: 100%;
+  }
 }

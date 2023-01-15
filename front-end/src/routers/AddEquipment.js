@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 /* components and styles */
 import Container from "../components/Container";
@@ -25,6 +25,8 @@ export default function AddEquipment() {
     const [unitPriceService, setUnitPriceService] = useState("");
     const [description, setDescription] = useState("");
     const [form, setForm] = useState("");
+    const [views, setViews] = useState("all")
+    const fileInput = useRef(null);
 
     const equipmentList = () => {
         axios.post("http://127.0.0.1:8080/equipment/all")
@@ -70,7 +72,9 @@ export default function AddEquipment() {
     };
 
     const addPhoto = (_id) => {
-        if (oneMachine?.lengthGallery >= 7) {
+        if (fileInput.current.value === "") {
+            setError(<Error>Nie wybrano pliku</Error>)
+        } else if (oneMachine?.lengthGallery >= 7) {
             return setError(<Error>Dodano Maźymalną ilość zdjęć</Error>)
         } else if (oneMachine?.lengthGallery >= 0) {
 
@@ -83,21 +87,21 @@ export default function AddEquipment() {
             const formData = new FormData()
             formData.append("photo", photo)
             axios.put("http://127.0.0.1:8080/equipment/photo/" + _id, formData)
-                .then(() =>
-                    oneEquipment(_id))
+                .then(() => {
+                    oneEquipment(_id)
+                    fileInput.current.value = '';
+                })
         }
     }
 
     const renamePhoto = (namePhoto) => {
         const idPhoto = namePhoto.idPhoto
         const equipmentId = namePhoto.idEquipment
-
         const newLengthGallery = Number(oneMachine?.lengthGallery)
         const lengthGallery = (newLengthGallery - 1).toString()
         axios.put("http://127.0.0.1:8080/equipment/update/" + equipmentId, { lengthGallery: lengthGallery })
         setError(<Error isAlternative={true}>Zdjecie zostało usuniete</Error>)
 
-        console.log(equipmentId);
         axios.delete("http://127.0.0.1:8080/equipment/renamePhoto/" + idPhoto, {
             data: {
                 equipmentId: equipmentId,
@@ -128,7 +132,6 @@ export default function AddEquipment() {
         })
     };
 
-
     useEffect(() => {
         equipmentList()
     }, [])
@@ -158,7 +161,6 @@ export default function AddEquipment() {
                                         type="text" />
                                 </td>
                             )}
-
                         </tr>
                         <tr>
                             <td> Model</td>
@@ -174,7 +176,6 @@ export default function AddEquipment() {
                                         type="text" />
                                 </td>
                             )}
-
                         </tr>
                         <tr>
                             <td> Rok Produkcji</td>
@@ -290,8 +291,11 @@ export default function AddEquipment() {
                         </tr>
                         <tr>
                             <td colSpan="2">
-                                <input type="file" accept=".png, .jpg, .jpeg" name="photo" onChange={handlePhoto} />
-                                <Button onClick={() => addPhoto(oneMachine?._id)}>Dodaj</Button>
+                                <input type="file" accept=".png, .jpg, .jpeg" name="photo" onChange={handlePhoto} ref={fileInput} />
+                                <Button onClick={() => {
+
+                                    addPhoto(oneMachine?._id)
+                                }}>Dodaj</Button>
                             </td>
                         </tr>
                     </tbody>
@@ -362,8 +366,20 @@ export default function AddEquipment() {
             </form>
 
             <MainSecondHeder>Lista Urządzeń</MainSecondHeder>
+
             <table>
                 <thead>
+                    <tr>
+                        <td colSpan="5">
+                            <select className={styles.select} onChange={(e) => setViews(e.target.value)}>
+                                <option value="all">Wszystkie</option>
+                                <option value="Elektryczne">Elektryczne</option>
+                                <option value="Hydrauliczne">Hydrauliczne</option>
+                                <option value="Cięzki Sprzęt">Cięzki Sprzęt</option>
+                                <option value="Inne">Inne</option>
+                            </select>
+                        </td>
+                    </tr>
                     <tr>
                         <td>Nazwa</td>
                         <td>Model</td>
@@ -373,17 +389,24 @@ export default function AddEquipment() {
                 </thead>
                 <tbody>
                     {listEquipment.map((list) => {
-                        return (
-                            <tr key={list._id}>
-                                <td>{list.machineName}</td>
-                                <td>{list.model}</td>
-                                <td>{list.quantity}</td>
-                                <td><Button onClick={() => {
-                                    setViewsMachine("open")
-                                    oneEquipment(list._id)
-                                }}>Wiecej informacji</Button></td>
-                            </tr>
-                        )
+                        if (list.category === views || views === "all") {
+                            return (
+                                <tr key={list._id}>
+                                    <td>{list.machineName}</td>
+                                    <td>{list.model}</td>
+                                    <td>{list.quantity}</td>
+                                    <td><Button onClick={() => {
+                                        setViewsMachine("open")
+                                        oneEquipment(list._id)
+                                        setError("")
+                                    }}>Wiecej informacji</Button>
+                                        <Button>Usuń</Button>
+                                    </td>
+                                </tr>
+                            )
+                        } else {
+                            return null
+                        }
                     })}
                 </tbody>
             </table>

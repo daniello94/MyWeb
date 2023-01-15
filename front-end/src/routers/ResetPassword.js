@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 /* components */
@@ -15,6 +15,15 @@ export default function ResetPassword(props) {
     const [error, setError] = useState('');
     const [statusError, setStatusError] = useState(false)
     const { token } = useParams();
+    const { onIsOnPageChange } = props;
+    useEffect(() => {
+        const currentUrl = window.location.pathname;
+        if (currentUrl === "/") {
+            onIsOnPageChange(true);
+        } else {
+            onIsOnPageChange(true);
+        }
+    }, [onIsOnPageChange]);
 
     const handleResetPassword = async (e) => {
         e.preventDefault();

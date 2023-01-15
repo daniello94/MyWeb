@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 /* components */
 import Container from "../components/Container";
@@ -9,10 +9,19 @@ import Error from "../components/Error";
 /* style */
 import "../views/SendEmailResetPassword.module.scss";
 
-export default function SendEmailResetPassword() {
+export default function SendEmailResetPassword(props) {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const [errorInput, setErrorInput] = useState(false)
+    const { onIsOnPageChange } = props;
+    useEffect(() => {
+        const currentUrl = window.location.pathname;
+        if (currentUrl === "/") {
+            onIsOnPageChange(true);
+        } else {
+            onIsOnPageChange(true);
+        }
+    }, [onIsOnPageChange]);
 
     const setEmailGenerateToken = () => {
         if (errorInput === true || !email) {
