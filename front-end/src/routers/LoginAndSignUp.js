@@ -419,7 +419,7 @@ export default function LoginAndSignUp(props) {
                     loginUser()
                 }}>Zaloguj</Button>
             </form>
-            <p>Nie pamietasz hasła klijknij <MyLink onClick={props.userOption} to="/reset-password-email">tutaj</MyLink></p>
+            <p>Nie pamietasz hasła klijknij <MyLink fiveLink={true} onClick={props.userOption} to="/reset-password-email">tutaj</MyLink></p>
             <p>Aby stworzyć konto kliknij <Button secundBtn={true} onClick={() => {
                 setRegistration("openRegistration");
                 setError("")

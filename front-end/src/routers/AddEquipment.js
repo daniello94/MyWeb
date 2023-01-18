@@ -26,6 +26,7 @@ export default function AddEquipment() {
     const [description, setDescription] = useState("");
     const [form, setForm] = useState("");
     const [views, setViews] = useState("all")
+    const [recommend, setRecommend] = useState(false)
     const fileInput = useRef(null);
 
     const equipmentList = () => {
@@ -68,6 +69,15 @@ export default function AddEquipment() {
         })
             .then(() => {
                 oneEquipment(_id)
+            })
+    };
+
+    const stanRecommend = (_id) => {
+        axios.put("http://127.0.0.1:8080/equipment/update/" + _id, {
+            recommend: recommend
+        })
+            .then(() => {
+                equipmentList();
             })
     };
 
@@ -400,6 +410,20 @@ export default function AddEquipment() {
                                         oneEquipment(list._id)
                                         setError("")
                                     }}>Wiecej informacji</Button>
+                                        {list.recommend === false && (
+                                            <Button
+                                                onClick={() => {
+                                                    setRecommend(!recommend);
+                                                    stanRecommend(list._id)
+                                                }}
+                                            >Dodaj do Polecanych</Button>
+                                        )}
+                                        {list.recommend === true && (
+                                            <Button onClick={() => {
+                                                setRecommend(!recommend);
+                                                stanRecommend(list._id)
+                                            }}>Usuń z Polecanych</Button>
+                                        )}
                                         <Button>Usuń</Button>
                                     </td>
                                 </tr>

@@ -83,7 +83,10 @@ const equipments = new mongoose.Schema({
         type: String,
         default: ""
     },
-
+    recommend: {
+        type: Boolean,
+        default: false
+    },
     model: {
         type: String,
         default: ""
