@@ -8,7 +8,7 @@ import axios from "axios";
 /* media style and icons*/
 import { BiX } from "react-icons/bi";
 import styles from "./views/App.module.scss";
-
+import Video from "./routers/Video";
 /* routers */
 import Menu from "./routers/Menu";
 import LoginAndSignUp from "./routers/LoginAndSignUp";
@@ -17,7 +17,7 @@ import ResetPassword from "./routers/ResetPassword";
 import Home from "./routers/Home";
 import DelateUser from "./routers/DelateUser";
 import AdministrationPanel from "./routers/AdministrationPanel";
-import Video from "./routers/Video";
+import ToolList from "./routers/ToolList";
 /* components */
 import Container from "./components/Container";
 import MyLink from "./components/MyLink";
@@ -41,7 +41,6 @@ export default function App() {
   const handleIsOnPageChange = (value) => {
     setIsOnPage(value);
   }
-  console.log(isOnPage, "app");
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -114,6 +113,10 @@ export default function App() {
             element={
               <Home
                 onIsOnPageChange={handleIsOnPageChange} />
+            } />
+          <Route path="/toolList"
+            element={
+              <ToolList />
             } />
         </Routes>
       </Container>

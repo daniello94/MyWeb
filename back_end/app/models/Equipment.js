@@ -91,6 +91,10 @@ const equipments = new mongoose.Schema({
         type: String,
         default: ""
     },
+    typ: {
+        type: String,
+        default: ""
+    },
 
     category: {
         type: String,

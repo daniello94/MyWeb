@@ -9,6 +9,7 @@ import MainHeder from "../components/MainHeder";
 import MainSecondHeder from "../components/MainSecoundHeder";
 import styles from "../views/Home.module.scss";
 import { BiX } from "react-icons/bi";
+import MyLink from "../components/MyLink";
 
 export default function Home(props) {
   const [listEquipment, setListEquipment] = useState([]);
@@ -17,6 +18,7 @@ export default function Home(props) {
   })
   const [gallery, setGallery] = useState(false)
   const { onIsOnPageChange } = props;
+
   const equipmentList = () => {
     axios.post("http://127.0.0.1:8080/equipment/all")
       .then((res) => {
@@ -29,7 +31,6 @@ export default function Home(props) {
       .then((res) => {
         setMachine(res.data)
         setGallery(true)
-        console.log("działa");
       })
 
   }
@@ -85,7 +86,7 @@ export default function Home(props) {
             }
           })}
         </div>
-        <Button fiveBtn={true}>Pełna Oferta Tutaj</Button>
+        <MyLink to={"/toolList"} sixLink={true}>Pełna Oferta Tutaj</MyLink>
       </Container>
       {/* gallery */}
       {gallery === true && (

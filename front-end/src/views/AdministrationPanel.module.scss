@@ -1,6 +1,6 @@
-.administrationNav{
+.administrationNav {
     width: 20%;
-   height: 650px;
+   min-height: 1200px;
     margin-right: 10px;
     display: flex;
     flex-direction: column;
@@ -10,9 +10,8 @@
     background-color: black;
     color: white;
 }
-.viewsPanel{
+.viewsPanel {
     width: 80%;
-    max-height: 800px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -20,8 +19,8 @@
     align-items: center;
     margin: 20px;
 }
-nav{
-    ul{
+nav {
+    ul {
         list-style: none;
     }
 }

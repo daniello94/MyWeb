@@ -8,7 +8,8 @@ const MyLink = (props) => {
                         ${props.secondLink && styles.secondLink}
                         ${props.treeLink && styles.treeLink}
                         ${props.forLink && styles.forLink}
-                        ${props.fiveLink && styles.fiveLink}`}
+                        ${props.fiveLink && styles.fiveLink}
+                        ${props.sixLink && styles.sixLink}`}
             to={props.to}
             onClick={props.onClick}
         >{props.children}</Link>

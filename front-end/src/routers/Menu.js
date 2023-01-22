@@ -47,6 +47,9 @@ export default function Menu(props) {
                                 <li>
                                     <MyLink forLink={props.activeClassMenu === "initialClass" && true} onClick={() => menuHamburgerStan()} to="/"><span>O nas</span></MyLink>
                                 </li>
+                                <li>
+                                    <MyLink forLink={props.activeClassMenu === "initialClass" && true} onClick={() => menuHamburgerStan()} to="/toolList"><span>Oferta</span></MyLink>
+                                </li>
                                 {props.userData && (
                                     <li>
                                         <MyLink forLink={props.activeClassMenu === "initialClass" && true} onClick={() => menuHamburgerStan()} to="/delate"><span>Usuń konto</span></MyLink>

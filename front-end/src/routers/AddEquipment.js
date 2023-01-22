@@ -7,10 +7,16 @@ import MainSecondHeder from "../components/MainSecoundHeder";
 import MyInput from "../components/MyInput";
 import Button from "../components/Button";
 import Error from "../components/Error";
+import AddCategory from "../routers/AddCategory";
+import AddTyp from "./AddTyp";
 
 export default function AddEquipment() {
     const [listEquipment, setListEquipment] = useState([]);
+    const [viewsCategory, setViewsCategory] = useState([])
+    const [viewsTyp, setViewsTyp] = useState([])
+    const [addNewTyp, setAddNewTyp] = useState(false)
     const [isErrorInput, setErrorInput] = useState(false);
+    const [addNewCategory, setAddCategory] = useState(false)
     const [error, setError] = useState("");
     const [oneMachine, setOneMachine] = useState({
         lengthGallery: "",
@@ -25,6 +31,7 @@ export default function AddEquipment() {
     const [unitPriceService, setUnitPriceService] = useState("");
     const [description, setDescription] = useState("");
     const [form, setForm] = useState("");
+    const [typ, setTyp] = useState("");
     const [views, setViews] = useState("all")
     const [recommend, setRecommend] = useState(false)
     const fileInput = useRef(null);
@@ -35,6 +42,19 @@ export default function AddEquipment() {
                 setListEquipment(res.data)
             })
     };
+    const listCategory = () => {
+        axios.post("http://127.0.0.1:8080/category/all")
+            .then((res) => {
+                setViewsCategory(res.data)
+            })
+    }
+    const listTyp = () => {
+        axios.post("http://127.0.0.1:8080/typ/all")
+            .then((res) => {
+                setViewsTyp(res.data)
+                console.log(res.data,"jest");
+            })
+    }
     const addEquipment = () => {
         if (!nameMachine) {
             setError(<Error>To pole nie może być puste</Error>)
@@ -65,6 +85,7 @@ export default function AddEquipment() {
             quantity: quantity,
             category: category,
             unitPriceService: unitPriceService,
+            typ: typ,
             description: description
         })
             .then(() => {
@@ -144,6 +165,8 @@ export default function AddEquipment() {
 
     useEffect(() => {
         equipmentList()
+        listCategory()
+        listTyp()
     }, [])
 
     if (viewsMachine === "open") {
@@ -227,16 +250,58 @@ export default function AddEquipment() {
                             )}
                             {isErrorInput === true && (
                                 <td>
-                                    <select onChange={(e) => setCategory(e.target.value)}>
-                                        <option value={category}>{category}</option>
-                                        <option value="Elektryczne">Elektryczne</option>
-                                        <option value="Hydrauliczne">Hydrauliczne</option>
-                                        <option value="Cięzki Sprzęt">Cięzki Sprzęt</option>
-                                        <option value="Inne">Inne</option>
-                                    </select>
+                                    {addNewCategory === false && (
+                                        <>
+                                            <select onChange={(e) => setCategory(e.target.value)}>
+                                                <option value={category}>{category}</option>
+                                                {viewsCategory.map((optionCategory) => {
+                                                    return (
+                                                        <option key={optionCategory._id} value={optionCategory.category}>{optionCategory.category}</option>
+                                                    )
+                                                })}
+                                            </select>
+                                            <Button forBtn={true} onClick={() => setAddCategory(true)}>Dodaj Kategorie</Button>
+                                        </>
+                                    )}
+                                    {addNewCategory === true && (
+                                        <AddCategory setAddCategory={setAddCategory}
+                                            listCategory={listCategory} />
+                                    )}
                                 </td>
                             )}
                         </tr>
+
+                        {category !== "" && (
+                            <tr>
+                                <td>Typ</td>
+                                {isErrorInput === false && (
+                                    <td>{oneMachine?.typ}</td>
+                                )}
+                                {isErrorInput === true && (
+                                    <td>
+                                        {addNewTyp === false && (
+                                            <>
+                                                <select onChange={(e) => setTyp(e.target.value)}>
+                                                    <option value={typ}>{typ}</option>
+                                                    {viewsTyp.map((typList)=>{
+                                                        return(
+                                                            <option key={typList._id} value={typList.typ}>{typList.typ}</option>
+                                                        )
+                                                    })}
+                                                </select>
+                                                <Button forBtn={true} onClick={() => setAddNewTyp(true)}>Dodaj Typ</Button>
+                                            </>
+                                        )}
+                                        {addNewTyp === true && (
+                                            <AddTyp setAddNewTyp={setAddNewTyp}
+                                            listTyp={listTyp} />
+                                        )}
+                                    </td>
+                                )}
+
+                            </tr>
+                        )}
+
                         <tr>
                             <td>Cenna za dobę</td>
                             {isErrorInput === false && (
@@ -321,6 +386,7 @@ export default function AddEquipment() {
                             setYear(oneMachine?.year)
                             setUnitPriceService(oneMachine?.unitPriceService)
                             setDescription(oneMachine?.description)
+                            setTyp(oneMachine?.typ)
                             setErrorInput(true)
                         }}>Edytuj</Button>
                     )}
