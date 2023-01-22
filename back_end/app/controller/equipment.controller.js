@@ -25,7 +25,6 @@ function addEquipment(data, cb) {
 // };
 
 async function deleteEquipment(id) {
-
     try {
         // Pobierz elementy z tablicy gallery, jeśli istnieje
         let gallery = [];

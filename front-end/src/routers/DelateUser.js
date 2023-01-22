@@ -54,7 +54,7 @@ export default function DelateUser(props) {
         )
     }
     return (
-        <Container forContainer={true}>
+        <Container ninthContainer={true}>
             <MainHeder>Usunięcie Konta</MainHeder>
             {error}
             <form>

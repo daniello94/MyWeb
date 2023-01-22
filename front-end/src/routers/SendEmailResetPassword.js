@@ -47,7 +47,7 @@ export default function SendEmailResetPassword(props) {
         }
     }
     return (
-        <Container forContainer={true}>
+        <Container ninthContainer={true}>
             <MyHeder>Reset Hasła</MyHeder>
             <p>Wpisz adres email z którym masz powiązane konto</p>
             {error}

@@ -8,6 +8,7 @@ import MyInput from '../components/MyInput';
 import Button from '../components/Button';
 import MainHeder from '../components/MainHeder';
 import MyLink from '../components/MyLink';
+/* style */
 
 export default function ResetPassword(props) {
     const [password, setPassword] = useState('');
@@ -58,7 +59,7 @@ export default function ResetPassword(props) {
     };
 
     return (
-        <Container forContainer={true}>
+        <Container ninthContainer={true}>
             <MainHeder>Hasło</MainHeder>
             {error}
             <form onSubmit={handleResetPassword}>

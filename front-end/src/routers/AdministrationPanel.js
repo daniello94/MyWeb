@@ -9,6 +9,7 @@ import MainSecondHeder from "../components/MainSecoundHeder";
 import AddEmployee from "./AddEmployee";
 import ListUser from "./ListUser";
 import AddEquipment from "./AddEquipment";
+import Orders from "./Orders";
 
 export default function AdministrationPanel(props) {
     const { onIsOnPageChange } = props;
@@ -60,6 +61,9 @@ export default function AdministrationPanel(props) {
                             <li>
                                 <Button onClick={() => setViews('addEquipment')} thirdBtn={true}>Urządzenia</Button>
                             </li>
+                            <li>
+                                <Button onClick={() => setViews('orders')} thirdBtn={true}>Zamówienia</Button>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -75,6 +79,9 @@ export default function AdministrationPanel(props) {
                     )}
                     {views === "addEquipment" && (
                         < AddEquipment />
+                    )}
+                       {views === "orders" && (
+                        < Orders />
                     )}
                 </div>
             </Container>

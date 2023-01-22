@@ -17,6 +17,7 @@ import ResetPassword from "./routers/ResetPassword";
 import Home from "./routers/Home";
 import DelateUser from "./routers/DelateUser";
 import AdministrationPanel from "./routers/AdministrationPanel";
+import Video from "./routers/Video";
 /* components */
 import Container from "./components/Container";
 import MyLink from "./components/MyLink";
@@ -40,7 +41,7 @@ export default function App() {
   const handleIsOnPageChange = (value) => {
     setIsOnPage(value);
   }
-  console.log(isOnPage,"app");
+  console.log(isOnPage, "app");
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -58,6 +59,7 @@ export default function App() {
 
   return (
     <div className={styles.contentApp}>
+      <Video />
       <Menu userOption={() => userOption()}
         userData={userData}
         setUser={setUser}
@@ -89,12 +91,12 @@ export default function App() {
             element={
               <ResetPassword
                 userOption={() => userOption()}
-                onIsOnPageChange={handleIsOnPageChange}  />
+                onIsOnPageChange={handleIsOnPageChange} />
             } />
           <Route path="/reset-password-email"
             element={
               <SendEmailResetPassword
-              onIsOnPageChange={handleIsOnPageChange} />
+                onIsOnPageChange={handleIsOnPageChange} />
             } />
           <Route path="/administration"
             element={
@@ -106,12 +108,12 @@ export default function App() {
             element={
               <DelateUser
                 userData={userData}
-                onIsOnPageChange={handleIsOnPageChange}  />
+                onIsOnPageChange={handleIsOnPageChange} />
             } />
           <Route path="/"
             element={
               <Home
-              onIsOnPageChange={handleIsOnPageChange}  />
+                onIsOnPageChange={handleIsOnPageChange} />
             } />
         </Routes>
       </Container>
