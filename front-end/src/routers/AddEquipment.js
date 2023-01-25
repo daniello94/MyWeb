@@ -52,7 +52,7 @@ export default function AddEquipment() {
         axios.post("http://127.0.0.1:8080/typ/all")
             .then((res) => {
                 setViewsTyp(res.data)
-                console.log(res.data,"jest");
+                console.log(res.data, "jest");
             })
     }
     const addEquipment = () => {
@@ -283,8 +283,8 @@ export default function AddEquipment() {
                                             <>
                                                 <select onChange={(e) => setTyp(e.target.value)}>
                                                     <option value={typ}>{typ}</option>
-                                                    {viewsTyp.map((typList)=>{
-                                                        return(
+                                                    {viewsTyp.map((typList) => {
+                                                        return (
                                                             <option key={typList._id} value={typList.typ}>{typList.typ}</option>
                                                         )
                                                     })}
@@ -294,11 +294,10 @@ export default function AddEquipment() {
                                         )}
                                         {addNewTyp === true && (
                                             <AddTyp setAddNewTyp={setAddNewTyp}
-                                            listTyp={listTyp} />
+                                                listTyp={listTyp} />
                                         )}
                                     </td>
                                 )}
-
                             </tr>
                         )}
 
@@ -449,10 +448,11 @@ export default function AddEquipment() {
                         <td colSpan="5">
                             <select className={styles.select} onChange={(e) => setViews(e.target.value)}>
                                 <option value="all">Wszystkie</option>
-                                <option value="Elektryczne">Elektryczne</option>
-                                <option value="Hydrauliczne">Hydrauliczne</option>
-                                <option value="Cięzki Sprzęt">Cięzki Sprzęt</option>
-                                <option value="Inne">Inne</option>
+                                {viewsCategory.map((list) => {
+                                    return (
+                                        <option key={list._id}>{list.category}</option>
+                                    )
+                                })}
                             </select>
                         </td>
                     </tr>

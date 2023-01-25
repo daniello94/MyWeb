@@ -44,6 +44,7 @@ export default function ToolList() {
             <Container sixContainer={true}>
                 <div className={styles.listMachine}>
                     <select className={styles.selectMachine} onChange={(e) => setViews(e.target.value)}>
+                        <option value={"all"}>Wszystkie</option>
                         {viewsCategory.map((optionCategory) => {
                             return (
                                 <option key={optionCategory._id} value={optionCategory.category}>{optionCategory.category}</option>
@@ -68,7 +69,7 @@ export default function ToolList() {
                     {listEquipment.map((viewsMachine) => {
                         if (viewsMachine.typ === clickMachine && viewsMachine.category === clickCategory) {
                             return (
-                                <p key={viewsMachine._id}>{viewsMachine.machineName} {viewsMachine.category}</p>
+                                <p key={viewsMachine._id}>{viewsMachine.machineName} {viewsMachine.category} {viewsMachine.model}</p>
                             )
                         } else {
                             return null

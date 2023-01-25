@@ -8,6 +8,7 @@ import logoCompany from "../media/picture/logo.jpg"
 /* components */
 import Container from "../components/Container";
 import MyLink from "../components/MyLink";
+import Button from "../components/Button";
 
 export default function Menu(props) {
     const [isActive, setActive] = useState("close");
@@ -71,7 +72,7 @@ export default function Menu(props) {
 
                 {!props.userData && (
                     <div className={styles.contentLinkMenu}>
-                        <MyLink forLink={props.activeClassMenu === "initialClass" && true} to="/signup" className={styles.iconUser} onClick={props.userOption}><BsFillPersonFill className={styles.iconUserLogin} /></MyLink>
+                        <Button forLink={props.activeClassMenu === "initialClass" && true}  className={styles.iconUser} onClick={props.userOption}><BsFillPersonFill className={styles.iconUserLogin} /></Button>
                     </div>
                 )}
 
