@@ -109,5 +109,15 @@
     @extend %commonContainer;
     @extend %commonBackgroundColor;
     opacity: 0.9;
-    z-index:30000000000000000000000000000000000000000000000000000000000000000;
+    z-index: 30000000000000000000000000000000000000000000000000000000000000000;
+}
+.elevenContainer {
+    width: 100%;
+    position: absolute;
+    @extend %commonContainer;
+    top: 0;
+    @extend %commonBackgroundColor;
+    z-index: 20000000000000000000000000000000000000000000000000000000000000000;
+    background-color: silver;
+    justify-content: space-between;
 }

@@ -72,7 +72,8 @@
 .forLink{
   color: white;
   margin-right: 20px;
-  font-size: 25px;
+  font-size: 30px;
+  border: none;
 }
 .fiveLink{
     @extend %commonBtnAndLink;

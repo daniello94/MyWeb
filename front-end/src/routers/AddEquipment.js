@@ -52,7 +52,6 @@ export default function AddEquipment() {
         axios.post("http://127.0.0.1:8080/typ/all")
             .then((res) => {
                 setViewsTyp(res.data)
-                console.log(res.data, "jest");
             })
     }
     const addEquipment = () => {

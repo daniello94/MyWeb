@@ -79,13 +79,6 @@ export default function App() {
           </div>
         )}
         <Routes>
-          {/* <Route path="/signup"
-            element={
-              <LoginAndSignUp
-                userOption={() => userOption()}
-                userData={userData}
-                setUser={setUser} />
-            } /> */}
           <Route path="/reset-password/:token"
             element={
               <ResetPassword
@@ -116,7 +109,8 @@ export default function App() {
             } />
           <Route path="/toolList"
             element={
-              <ToolList />
+              <ToolList
+              onIsOnPageChange={handleIsOnPageChange} />
             } />
         </Routes>
       </Container>

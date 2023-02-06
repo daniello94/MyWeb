@@ -4,7 +4,7 @@ const HederLine = (props) => {
     return (
         <hr className={
             `${styles.hr}
-             ${props.secundLine && styles.hr2}
+             ${props.secundLine && styles.secundLine}
              ${props.thirdLine && styles.hr3}`
         } />
     )
