@@ -14,15 +14,6 @@ function addEquipment(data, cb) {
     })
 };
 
-// function delateEquipment(id, cb) {
-//     Equipment.deleteOne({ _id: id }, function (err, equipment) {
-//         if (err) {
-//             cb(err)
-//         } else {
-//             cb(null, equipment)
-//         }
-//     })
-// };
 
 async function deleteEquipment(id) {
     try {
@@ -39,6 +30,28 @@ async function deleteEquipment(id) {
         const deletedPhotos = await Photo.deleteMany({ name: { $in: gallery } });
         console.log(`Usunięto ${deletedPhotos.deletedCount} elementów z modelu Photo`);
         console.log(deletedPhotos)
+        console.log(gallery, "galleria");
+
+        // Usuń pliki z folderu zdjęć
+        gallery.forEach(fileName => {
+            const filePath = `./photoService/${fileName}`;
+            fs.unlink(filePath, err => {
+                if (err) {
+                    console.error(`Nie można usunąć pliku ${fileName}: ${err}`);
+                } else {
+                    console.log(`Usunięto plik ${fileName}`);
+                }
+            });
+        });
+
+        // Usuń element z modelu Equipment
+        Equipment.deleteOne({ _id: id }, function (err, equipment) {
+            if (err) {
+                throw err;
+            } else {
+                console.log(`Usunięto element z modelu Equipment`);
+            }
+        });
     } catch (err) {
         throw err;
     }
