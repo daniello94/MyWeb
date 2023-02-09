@@ -14,48 +14,79 @@ function addEquipment(data, cb) {
     })
 };
 
-
 async function deleteEquipment(id) {
     try {
         // Pobierz elementy z tablicy gallery, jeśli istnieje
         let gallery = [];
-        const equipment = await Equipment.findOne({ _id: id });
-        if (equipment.hasOwnProperty('gallery')) {
-            gallery = equipment.gallery.photo;
-        }
-        if (!Array.isArray(gallery)) {
-            throw new Error(`Zmienna gallery nie jest tablicą: ${gallery}`);
-        }
-        // Usuń elementy z modelu Photo, których nazwy są takie same jak elementy z tablicy gallery
-        const deletedPhotos = await Photo.deleteMany({ name: { $in: gallery } });
-        console.log(`Usunięto ${deletedPhotos.deletedCount} elementów z modelu Photo`);
-        console.log(deletedPhotos)
-        console.log(gallery, "galleria");
+        await Equipment.findOne({ _id: id });
 
-        // Usuń pliki z folderu zdjęć
-        gallery.forEach(fileName => {
-            const filePath = `./photoService/${fileName}`;
-            fs.unlink(filePath, err => {
+        // Usuń pliki z folderu photo service
+        
+        for (let photo of gallery) {
+            console.log(photo, 'sds');
+            Photo.findOneAndDelete({ name: photo }, function (err, deletedPhoto) {
                 if (err) {
-                    console.error(`Nie można usunąć pliku ${fileName}: ${err}`);
+                    throw new Error(`Błąd podczas usuwania zdjęcia z bazy danych: ${err}`);
                 } else {
-                    console.log(`Usunięto plik ${fileName}`);
+                    fs.unlink('./photoService/' + deletedPhoto.photo, function (err) {
+                        if (err) {
+                            throw new Error(`Błąd podczas usuwania zdjęcia z folderu photo service: ${err}`);
+                        }
+                    });
                 }
             });
-        });
-
+        }
+        // Usuń elementy z modelu Photo, których nazwy są takie same jak elementy z tablicy gallery
+        await Photo.deleteMany({ name: { $in: gallery } });
         // Usuń element z modelu Equipment
-        Equipment.deleteOne({ _id: id }, function (err, equipment) {
-            if (err) {
-                throw err;
-            } else {
-                console.log(`Usunięto element z modelu Equipment`);
-            }
-        });
+        await Equipment.deleteOne({ _id: id });
+
     } catch (err) {
         throw err;
     }
 }
+
+// async function deleteEquipment(id) {
+//     try {
+//         // Pobierz elementy z tablicy gallery, jeśli istnieje
+//         let gallery = [];
+//         const equipment = await Equipment.findOne({ _id: id });
+//         if (equipment.hasOwnProperty('gallery')) {
+//             gallery = equipment.gallery.photo;
+//         }
+//         if (!Array.isArray(gallery)) {
+//             throw new Error(`Zmienna gallery nie jest tablicą: ${gallery}`);
+//         }
+//         // Usuń elementy z modelu Photo, których nazwy są takie same jak elementy z tablicy gallery
+//         const deletedPhotos = await Photo.deleteMany({ name: { $in: gallery } });
+//         console.log(`Usunięto ${deletedPhotos.deletedCount} elementów z modelu Photo`);
+//         console.log(deletedPhotos)
+//         console.log(gallery, "galleria");
+
+//         // Usuń pliki z folderu zdjęć
+//         gallery.forEach(fileName => {
+//             const filePath = './photoService/' + fileName;
+//             fs.unlink(filePath, err => {
+//                 if (err) {
+//                     console.error(`Nie można usunąć pliku ${fileName}: ${err}`);
+//                 } else {
+//                     console.log(`Usunięto plik ${fileName}`);
+//                 }
+//             });
+//         });
+
+//         // Usuń element z modelu Equipment
+//         Equipment.deleteOne({ _id: id }, function (err, equipment) {
+//             if (err) {
+//                 throw err;
+//             } else {
+//                 console.log(`Usunięto element z modelu Equipment`);
+//             }
+//         });
+//     } catch (err) {
+//         throw err;
+//     }
+// }
 
 function photoAdd(data, cb) {
     let newPhoto = new Photo(data[1]);

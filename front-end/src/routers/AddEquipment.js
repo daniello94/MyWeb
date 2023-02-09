@@ -143,6 +143,13 @@ export default function AddEquipment() {
             })
     }
 
+    const removeEquipment = (_id) => {
+        axios.delete("http://127.0.0.1:8080/equipment/delate/" + _id)
+            .then(() => {
+                equipmentList()
+            })
+    }
+
     const pictureMain = (_id, namePhoto) => {
         const mainPicture = namePhoto.photo
         const idMainPicture = namePhoto.idPhoto
@@ -489,7 +496,7 @@ export default function AddEquipment() {
                                                 stanRecommend(list._id)
                                             }}>Usuń z Polecanych</Button>
                                         )}
-                                        <Button>Usuń</Button>
+                                        <Button onClick={() => removeEquipment(list._id)}>Usuń</Button>
                                     </td>
                                 </tr>
                             )
