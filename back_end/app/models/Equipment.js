@@ -7,36 +7,67 @@ const conclusion = new mongoose.Schema({
         default: "Oczekujący",
     },
 
-    firstName: {
-        type: String,
-        default: "",
-    },
-
-    lastName: {
-        type: String,
-        default: "",
-    },
-
     phoneNumber: {
         type: String,
         default: "",
     },
-
-    numberId: {
+    email: {
         type: String,
-        default: "",
+        default: ""
     },
-
     typePerson: {
         type: String,
         default: ""
     },
+    dataPerson: {
+        firstName: {
+            type: String,
+            default: "",
+        },
 
-    nameCompany: {
-        type: String,
-        default: ""
+        lastName: {
+            type: String,
+            default: "",
+        },
+        numberId: {
+            type: String,
+            default: "",
+        },
+
+    },
+    dataCompany: {
+        nameCompany: {
+            type: String,
+            default: ""
+        },
+        numberIdCompany: {
+            type: String,
+            default: ""
+        }
     },
 
+    address: {
+        city: {
+            type: String,
+            default: ""
+        },
+        street: {
+            type: String,
+            default: ""
+        },
+        number: {
+            type: String,
+            default: ""
+        },
+        numberHouse: {
+            type: String,
+            default: ""
+        },
+        zipCode: {
+            type: String,
+            default: ""
+        }
+    },
     startDate: {
         type: String,
         default: ""

@@ -4,7 +4,6 @@ import axios from "axios";
 import MyGallery from "./MyGallery";
 /* components and style*/
 import Container from "../components/Container";
-import Button from "../components/Button"
 import MainHeder from "../components/MainHeder";
 import MainSecondHeder from "../components/MainSecoundHeder";
 import styles from "../views/Home.module.scss";
@@ -70,6 +69,10 @@ export default function Home(props) {
                           <td>{list.machineName}</td>
                         </tr>
                         <tr>
+                          <td>Model</td>
+                          <td>{list.model}</td>
+                        </tr>
+                        <tr>
                           <td>Cenna za dobę</td>
                           <td>{list.unitPriceService}</td>
                         </tr>
@@ -79,7 +82,7 @@ export default function Home(props) {
                         </tr>
                       </thead>
                     </table>
-                    <Button>Wypożycz</Button>
+                    <MyLink fiveLink={true} to={`/addOrders/${list._id}`}>Wypożycz Teraz</MyLink>
                   </div>
                 </div>
               )

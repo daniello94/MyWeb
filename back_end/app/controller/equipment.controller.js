@@ -1,7 +1,7 @@
 const Equipment = require("../models/Equipment");
 const Photo = require("../models/Photo");
 const fs = require('fs');
-const path = require('path');
+// const path = require('path');
 
 function addEquipment(data, cb) {
     let newEquipment = new Equipment(data);
@@ -22,7 +22,6 @@ async function deleteEquipment(id) {
         // Usuń pliki z folderu photo service
 
         for (let photo of gallery) {
-            console.log(photo, 'sds');
             Photo.findOneAndDelete({ name: photo }, function (err, deletedPhoto) {
                 if (err) {
                     throw new Error(`Błąd podczas usuwania zdjęcia z bazy danych: ${err}`);

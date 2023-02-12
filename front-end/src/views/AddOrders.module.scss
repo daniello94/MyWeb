@@ -1,0 +1,48 @@
+.contentOrders {
+    margin: 20px;
+    width: 80%;
+    opacity: 0.9;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .textInfo {
+        font-size: 25px;
+        font-weight: bold;
+        animation: blink 2s ease-in-out infinite;
+    }
+    form {
+        width: 100%;
+        label {
+            width: 80%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            span {
+                width: 15%;
+                color: black;
+                font-size: 20px;
+                margin-bottom: 10px;
+                margin-right: 10px;
+            }
+            input {
+                width: 90%;
+                margin-left: auto;
+                margin-right: 0;
+            }
+        }
+    }
+}
+@keyframes blink {
+    0% {
+        color: black;
+    }
+    50% {
+        color: red;
+    }
+    100% {
+        color: black;
+    }
+}

@@ -4,7 +4,9 @@ import axios from "axios";
 import Container from "../components/Container";
 import Button from "../components/Button";
 import MainSecondHeder from "../components/MainSecoundHeder";
-import styles from "../views/InfoEquipment.module.scss"
+import styles from "../views/InfoEquipment.module.scss";
+import MyLink from "../components/MyLink";
+
 export default function InfoEquipment(props) {
     const [machine, setMachine] = useState({
         gallery: [],
@@ -65,7 +67,7 @@ export default function InfoEquipment(props) {
                             <td>Cena za dobę wypożyczenia</td>
                             <td>{machine.unitPriceService} PLN</td>
                         </tr>
-                        
+
                         <tr>
                             <td className={styles.thead} colSpan={2}>Opis</td>
                         </tr>
@@ -76,10 +78,10 @@ export default function InfoEquipment(props) {
                 </table>
             </div>
             <div className={styles.button}>
-                 <Button>Wynajmij Teraz</Button>
-                 <Button onClick={props.openInfoEqu}>Zamknij Podglad</Button>
+                <MyLink sixLink={true} to={`/addOrders/${machine._id}`}>Wynajmij Teraz</MyLink>
+                <Button onClick={props.openInfoEqu}>Zamknij Podglad</Button>
             </div>
-           
+
         </Container>
     )
 }

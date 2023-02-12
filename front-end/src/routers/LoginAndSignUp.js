@@ -22,7 +22,12 @@ export default function LoginAndSignUp(props) {
     const [isMyInputErrorNumber, setMyInputErrorNumber] = useState(false);
     const [isMyInputErrorZipCode, setMyInputErrorZipCode] = useState(false);
     const [isMyInputErrorEmail, setMyInputErrorEmail] = useState(false);
-    const [isMyInputErrorPassword, setMyInputErrorPassword] = useState(false)
+    const [isMyInputErrorPassword, setMyInputErrorPassword] = useState(false);
+    const [isMyInputErrorNameCompany, setMyInputErrorNameCompany] = useState(false);
+    const [isMyInputErrorNumberIdCompany, setMyInputErrorNumberIdCompany] = useState(false);
+    const [typePerson, setTypePerson] = useState("Osoba Prywatna");
+    const [nameCompany, setNameCompany] = useState("");
+    const [numberIdCompany, setNumberIdCompany] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [numberId, setNumberId] = useState("");
@@ -38,45 +43,25 @@ export default function LoginAndSignUp(props) {
     const [errorStatus, setErrorStatus] = useState("");
 
     const registrationUser = () => {
-        let info = "Popraw błedy aby się zarejestrować"
-        if (isMyInputError === true || !firstName) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputError(true)
-        } else if (isMyInputErrorLastName === true || !lastName) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorLastName(true);
-        } else if (isMyInputErrorNumberId === true || !numberId) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorNumberId(true);
-        } else if (isMyInputErrorPhoneNumber === true || !phoneNumber) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorPhoneNumber(true);
-        } else if (isMyInputErrorCity === true || !city) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorCity(true);
-        } else if (isMyInputErrorStreet === true || !street) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorStreet(true);
-        } else if (isMyInputErrorNumber === true || !number) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorNumber(true);
-        } else if (isMyInputErrorZipCode === true || !zipCode) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorZipCode(true);
-        } else if (isMyInputErrorEmail === true || !email) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorEmail(true);
-        } else if (isMyInputErrorPassword === true || !password) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorPassword(true);
-        } else if (!repPassword) {
-            setErrorStatus(<Error>{info}</Error>);
-            setMyInputErrorPassword(true);
-        } else if (repPassword !== password) {
-            setErrorStatus(<Error>{info}</Error>);
-            setError(<Error>Wpisane hasła nie są identyczne</Error>)
-            setMyInputErrorPassword(true);
-        } else {
+       if((isMyInputError === false && firstName &&
+        isMyInputErrorLastName === false && lastName && 
+        isMyInputErrorNumberId === false && numberId &&
+        isMyInputErrorPhoneNumber === false && phoneNumber &&
+         isMyInputErrorCity === false && city &&
+         isMyInputErrorStreet === false && street && 
+         isMyInputErrorNumber === false && number &&
+         isMyInputErrorZipCode === false && zipCode && 
+         isMyInputErrorEmail === false && email && 
+         isMyInputErrorPassword === false && password && repPassword) || 
+         (isMyInputErrorNameCompany === false && nameCompany && 
+            isMyInputErrorNumberIdCompany === false && numberIdCompany &&
+            isMyInputErrorPhoneNumber === false && phoneNumber &&
+            isMyInputErrorCity === false && city &&
+            isMyInputErrorStreet === false && street && 
+            isMyInputErrorNumber === false && number &&
+            isMyInputErrorZipCode === false && zipCode && 
+            isMyInputErrorEmail === false && email && 
+            isMyInputErrorPassword === false && password && repPassword)) {
             axios.post("http://127.0.0.1:8080/user/check-email-uniqueness", { email })
                 .then((res) => {
                     if (res.data.exists) {
@@ -89,6 +74,10 @@ export default function LoginAndSignUp(props) {
                                 lastName: lastName,
                                 numberId: numberId
                             },
+                            dataCompany: {
+                                nameCompany: nameCompany,
+                                numberIdCompany: numberIdCompany
+                            },
                             address: {
                                 city: city,
                                 street: street,
@@ -97,7 +86,8 @@ export default function LoginAndSignUp(props) {
                             },
                             phoneNumber: phoneNumber,
                             email: email,
-                            password: password
+                            password: password,
+                            typePerson: typePerson
 
                         }
                         axios.post('http://127.0.0.1:8080/user/signup', formData)
@@ -116,12 +106,16 @@ export default function LoginAndSignUp(props) {
                         setPassword("");
                         setRepPassword("");
                         setRegistration("");
+                        setNameCompany("");
+                        setNumberIdCompany("");
                         setMyInputError(false);
                     }
                 })
                 .catch(() => {
                     setError(<Error>Wystąpił bład podczas sprawdzania unikalnosci adresu email</Error>)
                 })
+        }else {
+            setError(<Error>Formularz rejetracyjny zawiera błedy Popraw je</Error>)
         }
     };
     const loginUser = () => {
@@ -156,91 +150,173 @@ export default function LoginAndSignUp(props) {
                 {error}
                 <form>
                     <label>
-                        <span>Dane personalne</span>
-                        <div>
-                            <MyInput
-                                isError={isMyInputError}
-                                type="text"
-                                value={firstName}
-                                onChange={e => {
-                                    setFirstName(e.target.value);
-                                    if (e.target.value.length === 0) {
-                                        setError(<Error>Wpisz swoje imię</Error>);
-                                        setMyInputError(true);
-                                    } else {
-                                        setError("");
-                                        setErrorStatus("");
-                                        setMyInputError(false);
-                                    }
-                                }}
-                                placeholder="Wpisz swoje imię" />
-                            <MyInput
-                                isError={isMyInputErrorLastName}
-                                type="text"
-                                value={lastName}
-                                onChange={(e) => {
-                                    setLastName(e.target.value)
-                                    if (e.target.value.length === 0) {
-                                        setError(<Error>Wpisz swoje nazwisko</Error>);
-                                        setMyInputErrorLastName(true);
-                                    } else {
-                                        setError("");
-                                        setErrorStatus("");
-                                        setMyInputErrorLastName(false);
-                                    }
-                                }}
-                                placeholder="Wpisz swoje nazwisko" />
-                            <MyInput
-                                isError={isMyInputErrorNumberId}
-                                type="text"
-                                value={numberId}
-                                onChange={(e) => {
-                                    setNumberId(e.target.value)
-                                    if (e.target.value.length === 0) {
-                                        setError(<Error>Wpisz Pesel</Error>);
-                                        setMyInputErrorNumberId(true);
-                                    } else if (e.target.value.length <= 10) {
-                                        setError(<Error>Podany numer jest zbyt krótki</Error>);
-                                        setMyInputErrorNumberId(true)
-                                        return
-                                    } else if (e.target.value.length >= 12) {
-                                        setError(<Error>Podany numer jest za długi</Error>);
-                                        setMyInputErrorNumberId(true)
-                                        return
-                                    } else if (/\D/.test(e.target.value)) {
-                                        setError(<Error>Podałeś błedny znak numer PESEL skłąda się z samych cyfr</Error>);
-                                        setMyInputErrorNumberId(true)
-                                        return
-                                    } else {
-                                        setError("");
-                                        setErrorStatus("");
-                                        setMyInputErrorNumberId(false);
-                                    }
-                                }}
-                                placeholder="Pesel" />
-                            <MyInput
-                                isError={isMyInputErrorPhoneNumber}
-                                type="text"
-                                value={phoneNumber}
-                                onChange={(e) => {
-                                    setPhoneNumber(e.target.value)
-                                    if (e.target.value.length === 0) {
-                                        setError(<Error>Wpisz numer telefonu</Error>);
-                                        setMyInputErrorPhoneNumber(true)
-                                        return
-                                    } else if (/\D/.test(e.target.value)) {
-                                        setError(<Error>Podałeś błedny znak, wprowadź same cyfry</Error>)
-                                        setMyInputErrorPhoneNumber(true)
-                                        return
-                                    } else {
-                                        setError("");
-                                        setErrorStatus("");
-                                        setMyInputErrorPhoneNumber(false);
-                                    }
-                                }}
-                                placeholder="Numer kontaktowy" />
-                        </div>
+                        <select onClick={(e) => setTypePerson(e.target.value)}>
+                            <option value="Osoba Prywatna">Konto Prywatne</option>
+                            <option value="Firma">Konto Firmowe</option>
+                        </select>
                     </label>
+                    {typePerson === "Osoba Prywatna" && (
+                        <label>
+                            <span>Dane personalne</span>
+                            <div>
+                                <MyInput
+                                    isError={isMyInputError}
+                                    type="text"
+                                    value={firstName}
+                                    onChange={(e) => {
+                                        setFirstName(e.target.value);
+                                        if (e.target.value.length === 0) {
+                                            setError(<Error>Wpisz swoje imię</Error>);
+                                            setMyInputError(true);
+                                        } else {
+                                            setError("");
+                                            setErrorStatus("");
+                                            setMyInputError(false);
+                                        }
+                                    }}
+                                    placeholder="Wpisz swoje imię" />
+                                <MyInput
+                                    isError={isMyInputErrorLastName}
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => {
+                                        setLastName(e.target.value)
+                                        if (e.target.value.length === 0) {
+                                            setError(<Error>Wpisz swoje nazwisko</Error>);
+                                            setMyInputErrorLastName(true);
+                                        } else {
+                                            setError("");
+                                            setErrorStatus("");
+                                            setMyInputErrorLastName(false);
+                                        }
+                                    }}
+                                    placeholder="Wpisz swoje nazwisko" />
+                                <MyInput
+                                    isError={isMyInputErrorNumberId}
+                                    type="text"
+                                    value={numberId}
+                                    onChange={(e) => {
+                                        setNumberId(e.target.value)
+                                        if (e.target.value.length === 0) {
+                                            setError(<Error>Wpisz Pesel</Error>);
+                                            setMyInputErrorNumberId(true);
+                                        } else if (e.target.value.length <= 10) {
+                                            setError(<Error>Podany numer jest zbyt krótki</Error>);
+                                            setMyInputErrorNumberId(true)
+                                            return
+                                        } else if (e.target.value.length >= 12) {
+                                            setError(<Error>Podany numer jest za długi</Error>);
+                                            setMyInputErrorNumberId(true)
+                                            return
+                                        } else if (/\D/.test(e.target.value)) {
+                                            setError(<Error>Podałeś błedny znak numer PESEL skłąda się z samych cyfr</Error>);
+                                            setMyInputErrorNumberId(true)
+                                            return
+                                        } else {
+                                            setError("");
+                                            setErrorStatus("");
+                                            setMyInputErrorNumberId(false);
+                                        }
+                                    }}
+                                    placeholder="Pesel" />
+                                <MyInput
+                                    isError={isMyInputErrorPhoneNumber}
+                                    type="text"
+                                    value={phoneNumber}
+                                    onChange={(e) => {
+                                        setPhoneNumber(e.target.value)
+                                        if (e.target.value.length === 0) {
+                                            setError(<Error>Wpisz numer telefonu</Error>);
+                                            setMyInputErrorPhoneNumber(true)
+                                            return
+                                        } else if (/\D/.test(e.target.value)) {
+                                            setError(<Error>Podałeś błedny znak, wprowadź same cyfry</Error>)
+                                            setMyInputErrorPhoneNumber(true)
+                                            return
+                                        } else {
+                                            setError("");
+                                            setErrorStatus("");
+                                            setMyInputErrorPhoneNumber(false);
+                                        }
+                                    }}
+                                    placeholder="Numer kontaktowy" />
+                            </div>
+                        </label>
+                    )}
+
+                    {typePerson === "Firma" && (
+                        <label>
+                            <span>Dane Firmy</span>
+                            <div>
+                                <MyInput
+                                    isError={isMyInputErrorNameCompany}
+                                    type="text"
+                                    value={nameCompany}
+                                    onChange={(e) => {
+                                        setNameCompany(e.target.value)
+                                        if (e.target.value.length === 0) {
+                                            setError(<Error>Wpisz poprawną nazwe firmy</Error>);
+                                            setMyInputErrorNameCompany(true);
+                                        } else {
+                                            setError("");
+                                            setErrorStatus("");
+                                            setMyInputErrorNameCompany(false);
+                                        }
+                                    }}
+                                    placeholder="Wpisz Nazwę Firmy" />
+                                <MyInput
+                                    isError={isMyInputErrorNumberIdCompany}
+                                    type="text"
+                                    value={numberIdCompany}
+                                    onChange={(e) => {
+                                        setNumberIdCompany(e.target.value)
+                                        if (e.target.value.length === 0) {
+                                            setError(<Error>Wpisz NIP</Error>);
+                                            setMyInputErrorNumberIdCompany(true);
+                                        } else if (e.target.value.length <= 9) {
+                                            setError(<Error>Podany numer jest zbyt krótki</Error>);
+                                            setMyInputErrorNumberIdCompany(true)
+                                            return
+                                        } else if (e.target.value.length >= 11) {
+                                            setError(<Error>Podany numer jest za długi</Error>);
+                                            setMyInputErrorNumberIdCompany(true)
+                                            return
+                                        } else if (/\D/.test(e.target.value)) {
+                                            setError(<Error>Podałeś błedny znak numer NIP skłąda się z samych cyfr</Error>);
+                                            setMyInputErrorNumberIdCompany(true)
+                                            return
+                                        } else {
+                                            setError("");
+                                            setErrorStatus("");
+                                            setMyInputErrorNumberIdCompany(false);
+                                        }
+                                    }}
+                                    placeholder="NIP" />
+                                <MyInput
+                                    isError={isMyInputErrorPhoneNumber}
+                                    type="text"
+                                    value={phoneNumber}
+                                    onChange={(e) => {
+                                        setPhoneNumber(e.target.value)
+                                        if (e.target.value.length === 0) {
+                                            setError(<Error>Wpisz numer telefonu</Error>);
+                                            setMyInputErrorPhoneNumber(true)
+                                            return
+                                        } else if (/\D/.test(e.target.value)) {
+                                            setError(<Error>Podałeś błedny znak, wprowadź same cyfry</Error>)
+                                            setMyInputErrorPhoneNumber(true)
+                                            return
+                                        } else {
+                                            setError("");
+                                            setErrorStatus("");
+                                            setMyInputErrorPhoneNumber(false);
+                                        }
+                                    }}
+                                    placeholder="Numer kontaktowy" />
+                            </div>
+                        </label>
+                    )}
+
                     <label>
                         <span>Adres</span>
                         <div>

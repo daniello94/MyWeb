@@ -40,18 +40,6 @@ router.post('/add', function (req, res) {
 
 });
 
-// router.delete('/delate/:id', function (req, res) {
-//     equipment.delete(req.params.id, function (err, data) {
-//         if (err) {
-//             res.status(404)
-//             res.json({
-//                 error: "Equipment not found"
-//             })
-//         } else {
-//             res.json(data)
-//         }
-//     })
-// });
 
 router.delete('/delate/:id', async (req, res) => {
     try {

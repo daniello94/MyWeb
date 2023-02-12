@@ -21,6 +21,7 @@ import ToolList from "./routers/ToolList";
 /* components */
 import Container from "./components/Container";
 import MyLink from "./components/MyLink";
+import AddOrders from "./routers/AddOrders";
 
 export default function App() {
   const [stanUser, setStanUser] = useState("close");
@@ -110,7 +111,13 @@ export default function App() {
           <Route path="/toolList"
             element={
               <ToolList
-              onIsOnPageChange={handleIsOnPageChange} />
+                onIsOnPageChange={handleIsOnPageChange} />
+            } />
+          <Route path="/addOrders/:id"
+            element={
+              <AddOrders
+                onIsOnPageChange={handleIsOnPageChange}
+                userData={userData} />
             } />
         </Routes>
       </Container>

@@ -24,8 +24,12 @@
 }
 .clickMachine{
     width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     .contentOffer{
-        margin:5px;
+        margin:10px;
         width: 95%;
         display: flex;
         flex-direction: column;

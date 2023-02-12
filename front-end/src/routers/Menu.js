@@ -79,7 +79,7 @@ export default function Menu(props) {
                 {props.userData && (
                     <div className={styles.contentNameAndLink}>
                         <div className={styles.userName}>
-                            <p>Witaj {props.userData.user.personalData.firstName}</p>
+                            <p>Witaj {props.userData.user.personalData.firstName} {props.userData.user.dataCompany.nameCompany}</p>
                         </div>
                         <Link className={styles.mainItem} to="/" onClick={logOut}><BiLogOut className={styles.iconLogOut} /></Link>
                     </div>

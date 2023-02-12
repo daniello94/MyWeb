@@ -30,6 +30,20 @@ const schema = mongoose.Schema({
             default: ''
         }
     },
+    dataCompany: {
+        nameCompany: {
+            type: String,
+            default: ""
+        },
+        numberIdCompany: {
+            type: String,
+            default: ""
+        }
+    },
+    typePerson: {
+        type: String,
+        default: ""
+    },
     address: {
         city: {
             type: String,

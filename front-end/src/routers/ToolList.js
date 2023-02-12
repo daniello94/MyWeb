@@ -7,6 +7,8 @@ import Container from "../components/Container";
 import MainHeder from "../components/MainHeder";
 import Button from "../components/Button";
 import HederLine from "../components/HederLine";
+import MainSecondHeder from "../components/MainSecoundHeder";
+import MyLink from "../components/MyLink";
 
 export default function ToolList(props) {
     const { onIsOnPageChange } = props;
@@ -76,6 +78,7 @@ export default function ToolList(props) {
 
                 </div>
                 <div className={styles.clickMachine}>
+                    <MainSecondHeder thirdHeder={true}>Aktualnie przeszukujesz {clickMachine} z kategorii {clickCategory}</MainSecondHeder>
                     {listEquipment.map((viewsMachine) => {
                         if (viewsMachine.typ === clickMachine && viewsMachine.category === clickCategory) {
                             let writing = "urządzeń";
@@ -100,7 +103,8 @@ export default function ToolList(props) {
                                                 openViewsMachine()
                                                 setIdEqu(viewsMachine._id)
                                             }}>Wiecej Informacji</Button>
-                                            <Button> Wynajjmij teraz</Button>
+                                            <MyLink sixLink={true} to={`/addOrders/${viewsMachine._id}`}>Wynajmij Teraz</MyLink>
+                                            
                                         </div>
                                     </div>
                                     <HederLine secundLine={true} />
